@@ -1,0 +1,226 @@
+﻿@model SaazApplication.Models.CmpModel
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+@using (Html.BeginForm("EditCmpDetails", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    @*<div class="form-horizontal">*@
+    <h4>Company Details</h4>
+        <hr />
+        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.CompanyID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CompanyID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CompanyID, "", new { @class = "text-danger" })
+                </div>
+            </div*@
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <br><br />
+        <h4>Address</h4>
+        <hr />
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PlotNo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.PlotNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PlotNo, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.City_ZipCode, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.City_ZipCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.City_ZipCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <br><br />
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <br><br />
+        <h4>Contact Details</h4>
+        <hr />
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Landlline, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Landlline, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Landlline, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+            </td>
+        </tr>
+
+        <br><br />
+        <tr>
+            <td>
+                <div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmailID, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmailID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EmailID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+        </tr>
+        <br><br />
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>    <br><br />
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fax, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Fax, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <br><br />
+
+
+
+
+        <script>
+        $(document).ready(function () {
+            $(document).on('change', '.btn-file :file', function () {
+                var input = $(this),
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [label]);
+            });
+
+            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#img-upload').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#imgInp").change(function () {
+                readURL(this);
+            });
+        });
+        </script>
+        <tr>
+            <td>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-2">
+
+                        <input class="img-responsive" type="file" name="file" id="imgInp" />
+                        @Html.ValidationMessageFor(model => model.Logo, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <img id='img-upload' height="40" width="200" />
+                </div>
+
+            </td>
+        </tr>
+            <br><br />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Edit" class="btn btn-default" />
+                </div>
+            </div>
+
+
+}

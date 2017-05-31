@@ -1,0 +1,1581 @@
+﻿@model SaazApplication.Models.EmpCombine
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/printPreview.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#State").prop("disabled", true);
+        $("#Country").change(function () {
+            if ($("#Country").val() != "Select") {
+                var CountryOptions = {};
+                CountryOptions.url = "/Role1/states";
+                CountryOptions.type = "POST";
+                CountryOptions.data = JSON.stringify({ Country: $("#Country").val() });
+                CountryOptions.datatype = "json";
+                CountryOptions.contentType = "application/json";
+                CountryOptions.success = function (StatesList) {
+                    $("#State").empty();
+                    for (var i = 0; i < StatesList.length; i++) {
+                        $("#State").append("<option>" + StatesList[i] + "</option>");
+                    }
+                    $("#State").prop("disabled", false);
+                };
+                CountryOptions.error = function () { alert("Error in Getting States!!"); };
+                $.ajax(CountryOptions);
+            }
+            else {
+                $("#State").empty();
+                $("#State").prop("disabled", true);
+            }
+        });
+
+        $("#State2").prop("disabled", true);
+        $("#Country2").change(function () {
+            if ($("#Country").val() != "Select") {
+                var CountryOptions = {};
+                CountryOptions.url = "/Role1/states";
+                CountryOptions.type = "POST";
+                CountryOptions.data = JSON.stringify({ Country: $("#Country2").val() });
+                CountryOptions.datatype = "json";
+                CountryOptions.contentType = "application/json";
+                CountryOptions.success = function (StatesList) {
+                    $("#State").empty();
+                    for (var i = 0; i < StatesList.length; i++) {
+                        $("#State2").append("<option>" + StatesList[i] + "</option>");
+                    }
+                    $("#State2").prop("disabled", false);
+                };
+                CountryOptions.error = function () { alert("Error in Getting States!!"); };
+                $.ajax(CountryOptions);
+            }
+            else {
+                $("#State2").empty();
+                $("#State2").prop("disabled", true);
+            }
+        });
+
+        $("#IFSCCode").prop("disabled", true);
+        $("#BankName").change(function () {
+            if ($("#BankName").val() != "Select") {
+                var CountryOptions = {};
+                CountryOptions.url = "/Role1/IFSCCode";
+                CountryOptions.type = "POST";
+                CountryOptions.data = JSON.stringify({ BankName: $("#BankName").val() });
+                CountryOptions.datatype = "json";
+                CountryOptions.contentType = "application/json";
+                CountryOptions.success = function (StatesList) {
+                    $("#IFSCCode").empty();
+                    for (var i = 0; i < StatesList.length; i++) {
+                        $("#IFSCCode").append("<option>" + StatesList[i] + "</option>");
+                    }
+                    $("#IFSCCode").prop("disabled", false);
+                };
+                CountryOptions.error = function () { alert("Error in Getting IFSCCode!!"); };
+                $.ajax(CountryOptions);
+            }
+            else {
+                $("#IFSCCode").empty();
+                $("#IFSCCode").prop("disabled", true);
+            }
+        });
+    });
+
+    $(function () {
+        //for bootstrap 3 use 'shown.bs.tab' instead of 'shown' in the next line
+        $('a[data-toggle="tab"]').on('click', function (e) {
+            //save the latest tab; use cookies if you like 'em better:
+            localStorage.setItem('lastTab', $(e.target).attr('href'));
+        });
+
+        //go to the latest tab, if it exists:
+        var lastTab = localStorage.getItem('lastTab');
+
+        if (lastTab) {
+            $('a[href="' + lastTab + '"]').click();
+        }
+
+        $("#btnPrint").printPreview({
+            obj2print: '#masterContent',
+            width: '810'
+        });
+    });
+</script>
+
+
+
+@if (ViewBag.Error != null)
+{
+    <script>
+        $(document).ready(function () {
+            alert('@ViewBag.Error');
+        });
+    </script>
+}
+
+@using (Html.BeginForm("EmployeeDetails", "Role1", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="exTab3" class="container">
+        <ul class="nav nav-pills">
+            <li class="active">
+                <a href="#1b" data-toggle="tab">Basic Details</a>
+            </li>
+            <li>
+                <a href="#2b" data-toggle="tab">Emergency Contact Details</a>
+            </li>
+            <li>
+                <a href="#3b" data-toggle="tab">Insurance Details</a>
+            </li>
+            <li>
+                <a href="#4b" data-toggle="tab">Bank Details</a>
+            </li>
+            <li>
+                <a href="#5b" data-toggle="tab">Education Details </a>
+            </li>
+            <li>
+                <a href="#6b" data-toggle="tab">Experience Details</a>
+            </li>
+            <li>
+                <a href="#7b" data-toggle="tab">Company Mail Details</a>
+            </li>
+
+        </ul>
+        <div class="tab-content clearfix">
+            @************************************@
+            <div class="tab-pane  active" id="1b">
+                <h3 style="text-align:center;text-decoration:underline">EMPLOYEE BASIC DETAILS</h3>
+                <br><br />
+                <script>
+                    $(document).ready(function () {
+                        $(document).on('change', '.btn-file :file', function () {
+                            var input = $(this),
+                                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                            input.trigger('fileselect', [label]);
+                        });
+
+                        $('.btn-file :file').on('fileselect', function (event, label) {
+
+                            var input = $(this).parents('.input-group').find(':text'),
+                                log = label;
+
+                            if (input.length) {
+                                input.val(log);
+                            } else {
+                                if (log) alert(log);
+                            }
+
+                        });
+                        function readURL(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#img-upload').attr('src', e.target.result);
+                                }
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+
+                        $("#imgInp").change(function () {
+                            readURL(this);
+                        });
+                    });
+                </script>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpBasics.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpBasics.FirstName, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           @placeholder = "First Name",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('FirstName is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpBasics.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpBasics.MiddleName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Middle Name" } })
+                        @Html.ValidationMessageFor(model => model.EmpBasics.MiddleName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpBasics.LastName, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           @placeholder = "Last Name",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('LastName is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpBasics.LastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpBasics.EmployeeId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpBasics.EmployeeId, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('UniqueId is required')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpBasics.EmployeeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpBasics.Date_of_birth, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpBasics.Date_of_birth, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('Date of Birth is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpBasics.Date_of_birth, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpBasics.Date_of_join, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpBasics.Date_of_join, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('Date Of Joining is required')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpBasics.Date_of_join, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmpBasics.BirthPlace, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.EmpBasics.BirthPlace, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   ////required = "",
+                                   @oninvalid = "this.setCustomValidity('Place of Birth is required')",
+                                   @oninput = "setCustomValidity('')"
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.EmpBasics.BirthPlace, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpBasics.PAN, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpBasics.PAN, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('Pan-card number is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpBasics.PAN, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpBasics.Passport, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpBasics.Passport, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EmpBasics.Passport)
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmpBasics.Nationality, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.EmpBasics.Nationality, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   ////required = "",
+                                   @oninvalid = "this.setCustomValidity('Nationality is required')",
+                                   @oninput = "setCustomValidity('')"
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.EmpBasics.Nationality, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpBasics.Driver_License, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpBasics.Driver_License, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EmpBasics.Driver_License, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpBasics.Unique_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpBasics.Unique_ID, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('Aadhaar/Unique Id is required')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpBasics.Unique_ID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EmpBasics.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.EmpBasics.Gender,
+                            new SelectList(ViewBag.Gender, "Gender"), "select Gender", new
+                            {
+                                @class = "form-control",
+                                ////required = "",
+                                @oninvalid = "this.setCustomValidity('Please select Gender')",
+                                @oninput = "setCustomValidity('')"
+                            })
+                                @Html.ValidationMessageFor(m => m.EmpBasics.Gender)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.EmpBasics.MaritalStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.EmpBasics.MaritalStatus,
+                        new SelectList(ViewBag.MaritalStatus, "MaritalStatusName"), "select Status", new
+                        {
+                            @class = "form-control",
+                            ////required = "",
+                            @oninvalid = "this.setCustomValidity('Please select Marital-Status')",
+                            @oninput = "setCustomValidity('')"
+                        })
+                            @Html.ValidationMessageFor(m => m.EmpBasics.MaritalStatus)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EmpBasics.Department, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.EmpBasics.Department,
+                            new SelectList(ViewBag.Department, "Department"), "select Department", new
+                            {
+                                @class = "form-control",
+                                ////required = "",
+                                @oninvalid = "this.setCustomValidity('Please select Department')",
+                                @oninput = "setCustomValidity('')"
+                            })
+                                @Html.ValidationMessageFor(m => m.EmpBasics.Department)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.EmpBasics.Designation, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(m => m.EmpBasics.Designation,
+                                new SelectList(ViewBag.Designation, "Designation"), "select Designation", new
+                                {
+                                    @class = "form-control",
+                                    ////required = "",
+                                    @oninvalid = "this.setCustomValidity('Please select Designation')",
+                                    @oninput = "setCustomValidity('')"
+                                })
+                                    @Html.ValidationMessageFor(m => m.EmpBasics.Designation)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+
+                    @Html.LabelFor(m => m.EmpBasics.Employment_Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(m => m.EmpBasics.Employment_Type,
+                    new SelectList(ViewBag.Employment_Type, "Employment_Type"), "select Type", new
+                    {
+                        @class = "form-control",
+                        ////required = "",
+                        @oninvalid = "this.setCustomValidity('Please select Employment_Type')",
+                        @oninput = "setCustomValidity('')"
+                    })
+                        @Html.ValidationMessageFor(m => m.EmpBasics.Employment_Type)
+                    </div>
+                    <div class="form-group">
+
+                        @Html.LabelFor(m => m.EmpBasics.EmployeeRole, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.EmpBasics.EmployeeRole,
+                        new SelectList(ViewBag.EmployeeRole, "EmployeeRole"), "select Role", new
+                        {
+                            @class = "form-control",
+                            ////required = "",
+                            @oninvalid = "this.setCustomValidity('Please select EmployeeRole')",
+                            @oninput = "setCustomValidity('')"
+                        })
+                            @Html.ValidationMessageFor(m => m.EmpBasics.EmployeeRole)
+                        </div>
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.EmpBasics.BloodType, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.EmpBasics.BloodType,
+                            new SelectList(ViewBag.BloodType, "BloodType"), "select BloodGroup", new
+                            {
+                                @class = "form-control",
+                                ////required = "",
+                                @oninvalid = "this.setCustomValidity('Please select Blood Group')",
+                                @oninput = "setCustomValidity('')"
+                            })
+                                @Html.ValidationMessageFor(m => m.EmpBasics.BloodType)
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                @*<h3>Address Details</h3>
+                    <hr />*@
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.EmpBasics.AddressType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.EmpBasics.AddressType, ViewData["AddressType"] as SelectList,
+                        "Select Type", new
+                        {
+                            @class = "form-control",
+                            ////required = "",
+                            @oninvalid = "this.setCustomValidity('Please select AddressType')",
+                            @oninput = "setCustomValidity('')"
+                        })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpBasics.plot, htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpBasics.plot, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EmpBasics.plot, "", new
+                       {
+                           @class = "text-danger",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('Plot/House number is required')",
+                           @oninput = "setCustomValidity('')"
+                       })
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmpBasics.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.EmpBasics.Street, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmpBasics.Street, "", new
+                           {
+                               @class = "text-danger",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('Street is required')",
+                               @oninput = "setCustomValidity('')"
+                           })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpBasics.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpBasics.City, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('City name is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpBasics.City, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.EmpBasics.Country, new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.EmpBasics.Country, ViewData["Countries"] as SelectList, "Select Country", new
+                       {
+                           @class = "form-control",
+                           @id = "Country",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('Please Select Country')",
+                           @oninput = "setCustomValidity('')"
+                       })
+                            @Html.ValidationMessageFor(m => m.EmpBasics.Country, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EmpBasics.State, new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.EmpBasics.State,
+                            new SelectList(Enumerable.Empty<SelectListItem>
+                                (), "StateName"),
+                                "Select city",
+                                new
+                                {
+                                    @class = "form-control",
+                                    id = "State",
+                                    ////required = "",
+                                    @oninvalid = "this.setCustomValidity('Please Select State')",
+                                    @oninput = "setCustomValidity('')"
+                                })
+                                @Html.ValidationMessageFor(m => m.EmpBasics.State, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpBasics.PinCode, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpBasics.PinCode, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('PinCode is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpBasics.PinCode, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpBasics.ContactType, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.EmpBasics.ContactType, ViewData["ContactType"] as SelectList,
+                            "Select Type", new
+                            {
+                                @class = "form-control",
+                                ////required = "",
+                                @oninvalid = "this.setCustomValidity('Please Select ContactType')",
+                                @oninput = "setCustomValidity('')"
+                            })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmpBasics.CNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.EmpBasics.CNumber, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   ////required = "",
+                                   @oninvalid = "this.setCustomValidity('Contact number is required')",
+                                   @oninput = "setCustomValidity('')"
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.EmpBasics.CNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpBasics.EmailType, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.EmpBasics.EmailType, ViewData["EmailType"] as SelectList,
+                        "Select Type", new
+                        {
+                            @class = "form-control",
+                            ////required = "",
+                            @oninvalid = "this.setCustomValidity('Please Select EmailType')",
+                            @oninput = "setCustomValidity('')"
+                        })
+                            @Html.ValidationMessageFor(model => model.EmpBasics.EmailType, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmpBasics.MailId, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.EmpBasics.MailId, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   ////required = "",
+                                   @oninvalid = "this.setCustomValidity('Email Id is required')",
+                                   @oninput = "setCustomValidity('')"
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.EmpBasics.MailId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.EmpBasics.Company, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(m => m.EmpBasics.Company,
+                                new SelectList(ViewBag.CompanyName, "Company"), "select Company", new
+                                {
+                                    @class = "form-control",
+                                    ////required = "",
+                                    @oninvalid = "this.setCustomValidity('Please Select Company')",
+                                    @oninput = "setCustomValidity('')"
+                                })
+                                    @Html.ValidationMessageFor(m => m.EmpBasics.Company)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpBasics.Employee_profile, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input class="img-responsive" type="file" name="file" id="imgInp" />
+                                    @Html.ValidationMessageFor(model => model.EmpBasics.Employee_profile, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    <img id='img-upload' height="50" width="150" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Insert" name="EmpBSC" class="btn btn-default" />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @******************************@
+            <div class="tab-pane " id="2b">
+                <h3 style="text-align:center;text-decoration:underline">EMERGENCY CONTACT DETAILS</h3>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EmpEmergencys.Employee_EmgUniqueId, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(m => m.EmpEmergencys.Employee_EmgUniqueId,
+                    new SelectList(ViewBag.EmployeeID, "Employee"), "select Employee", new
+                    {
+                        @class = "form-control",
+                        ////required = "",
+                        @oninvalid = "this.setCustomValidity('Please Select Employee Id')",
+                        @oninput = "setCustomValidity('')"
+                    })
+                        @Html.ValidationMessageFor(m => m.EmpEmergencys.Employee_EmgUniqueId)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpEmergencys.Contactname, htmlAttributes: new { @class = "control-label col-md-1" })
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpEmergencys.Contactname, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('Contact name is required')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpEmergencys.Contactname, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmpEmergencys.Relation, htmlAttributes: new { @class = "control-label col-md-1" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.EmpEmergencys.Relation, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   ////required = "",
+                                   @oninvalid = "this.setCustomValidity('Contact relation is required')",
+                                   @oninput = "setCustomValidity('')"
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.EmpEmergencys.Relation, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpEmergencys.CNumber, htmlAttributes: new { @class = "control-label col-md-1" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpEmergencys.CNumber, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('Contact number is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpEmergencys.CNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.EmpEmergencys.Plot, htmlAttributes: new { @class = "control-label col-md-1" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpEmergencys.Plot, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('Plot/House number is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpEmergencys.Plot, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpEmergencys.Street, htmlAttributes: new { @class = "control-label col-md-1" })
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpEmergencys.Street, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('PlotStreet is required')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpEmergencys.Street, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EmpEmergencys.Country, new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(m => m.EmpEmergencys.Country, ViewData["Countries"] as SelectList,
+                    "Select Country", new
+                    {
+                        @class = "form-control",
+                        @id = "Country2",
+                        ////required = "",
+                        @oninvalid = "this.setCustomValidity('Please Select Country')",
+                        @oninput = "setCustomValidity('')"
+                    })
+                        @Html.ValidationMessageFor(m => m.EmpEmergencys.Country, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.EmpEmergencys.State, new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.EmpEmergencys.State,
+                        new SelectList(Enumerable.Empty<SelectListItem>
+                            (), "StateName"),
+                            "Select State", new
+                            {
+                                @class = "form-control",
+                                id = "State2",
+                                ////required = "",
+                                @oninvalid = "this.setCustomValidity('Please Select State')",
+                                @oninput = "setCustomValidity('')"
+                            })
+                            @Html.ValidationMessageFor(m => m.EmpEmergencys.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpEmergencys.City, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpEmergencys.City, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('City is required')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpEmergencys.City, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpEmergencys.PinCode, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpEmergencys.PinCode, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('Pincode is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpEmergencys.PinCode, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpEmergencys.Email, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpEmergencys.Email, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('Email Id is required')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpEmergencys.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Insert" name="EmpEgy" class="btn btn-default" />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @******************************@
+            <div class="tab-pane " id="3b">
+                <h3 style="text-align:center;text-decoration:underline">INSURANCE DETAILS</h3>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EmpInsurances.Employee_InsUniqueId, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(m => m.EmpInsurances.Employee_InsUniqueId,
+                    new SelectList(ViewBag.EmployeeID, "Employee"), "select Employee", new
+                    {
+                        @class = "form-control",
+                        ////required = "",
+                        @oninvalid = "this.setCustomValidity('Please Select Employee Id')",
+                        @oninput = "setCustomValidity('')"
+                    })
+                        @Html.ValidationMessageFor(m => m.EmpInsurances.Employee_InsUniqueId)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpInsurances.Insurance_company, htmlAttributes: new { @class = "control-label col-md-1" })
+
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpInsurances.Insurance_company, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('Insurance Company is required')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpInsurances.Insurance_company, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmpInsurances.PolicyNumber, htmlAttributes: new { @class = "control-label col-md-1" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.EmpInsurances.PolicyNumber, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   ////required = "",
+                                   @oninvalid = "this.setCustomValidity('Policy Number is required')",
+                                   @oninput = "setCustomValidity('')"
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.EmpInsurances.PolicyNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br />
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpInsurances.Policy_Name, htmlAttributes: new { @class = "control-label col-md-1" })
+
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpInsurances.Policy_Name, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           ////required = "",
+                           @oninvalid = "this.setCustomValidity('Policy name is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpInsurances.Policy_Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br><br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Insert" name="EmpINS" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+            @******************************@
+            <div class="tab-pane " id="4b">
+                <h3 style="text-align:center;text-decoration:underline">BANK DETAILS</h3>
+                <br><br />
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EmpBanks.Employee_UniqueId, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(m => m.EmpBanks.Employee_UniqueId,
+                    new SelectList(ViewBag.EmployeeID, "Employee"), "select Employee", new
+                    {
+                        @class = "form-control",
+                        ////required = "",
+                        @oninvalid = "this.setCustomValidity('Please Select Employee Id')",
+                        @oninput = "setCustomValidity('')"
+                    })
+                        @Html.ValidationMessageFor(m => m.EmpBanks.Employee_UniqueId)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpBanks.AccountHoldername, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpBanks.AccountHoldername, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               ////required = "",
+                               @oninvalid = "this.setCustomValidity('AccountHolder Name is required')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpBanks.AccountHoldername, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmpBanks.AccountNumber, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.EmpBanks.AccountNumber, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control",
+                                   ////required = "",
+                                   @oninvalid = "this.setCustomValidity('AccountHolder Number is required')",
+                                   @oninput = "setCustomValidity('')"
+                               }
+                           })
+                                @Html.ValidationMessageFor(model => model.EmpBanks.AccountNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br />
+                <div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpBanks.BankName, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.EmpBanks.BankName,
+                        ViewData["BankNames"] as SelectList, "Select Bank", new
+                        {
+                            @class = "form-control",
+                            @id = "BankName",
+                            //required = "",
+                            @oninvalid = "this.setCustomValidity('Please Select Bank')",
+                            @oninput = "setCustomValidity('')"
+                        })
+                            @Html.ValidationMessageFor(m => m.EmpBanks.BankName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmpBanks.IFSCCode, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.EmpBanks.IFSCCode,
+                            new SelectList(Enumerable.Empty<SelectListItem>
+                                (), "IFSCCodeName"),
+                                "Select IFSCCode", new
+                                {
+                                    @class = "form-control",
+                                    @id = "IFSCCode",
+                                    //required = "",
+                                    @oninvalid = "this.setCustomValidity('Please Select IFSC Code')",
+                                    @oninput = "setCustomValidity('')"
+                                })
+                                @Html.ValidationMessageFor(model => model.EmpBanks.IFSCCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Insert" name="EmpBNK" class="btn btn-default" />
+                    </div>
+                    <div class="form-group">
+                    </div>
+                </div>
+            </div>
+            @******************************@
+
+            <div class="tab-pane " id="5b">
+                <h3 style="text-align:center;text-decoration:underline">EDUCATION DETAILS</h3>
+                <br><br />
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EmpEducations.Employee_UniqueId, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(m => m.EmpEducations.Employee_UniqueId,
+                    new SelectList(ViewBag.EmployeeID, "Employee"), "select Employee", new
+                    {
+                        @class = "form-control",
+                        //required = "",
+                        @oninvalid = "this.setCustomValidity('Please Select Employee Id')",
+                        @oninput = "setCustomValidity('')"
+                    })
+                        @Html.ValidationMessageFor(m => m.EmpEducations.Employee_UniqueId)
+                    </div>
+
+                </div>
+                <br>
+                <br />
+                <table style="border: 1px solid Gray;width:100%">
+                    <tr style="border: 1px solid Gray;">
+                        <th style="border: 1px solid Gray;">
+                            @Html.LabelFor(model => model.EmpEducations.Qualification, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </th>
+                        <th style="border: 1px solid Gray;">
+                            @Html.LabelFor(model => model.EmpEducations.Location, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        </th>
+                        <th style="border: 1px solid Gray;">
+                            @Html.LabelFor(model => model.EmpEducations.InstutionName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </th>
+                        <th style="border: 1px solid Gray;">
+                            @Html.LabelFor(model => model.EmpEducations.FromYear, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </th>
+                        <th style="border: 1px solid Gray;">
+                            @Html.LabelFor(model => model.EmpEducations.ToYear, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </th>
+                        <th style="border: 1px solid Gray;">
+                            @Html.LabelFor(model => model.EmpEducations.Grade, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </th>
+                        <th style="border: 1px solid Gray;">
+                            @Html.LabelFor(model => model.EmpEducations.DocumentName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </th>
+                        <th style="border: 1px solid Gray;">
+                            @Html.LabelFor(model => model.EmpEducations.Document, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </th>
+                    </tr>
+                    <tr style="border: 1px solid Gray;">
+                        <td style="border: 1px solid Gray;">
+                            10th or equivalent
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.Location1, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.InstutionName1, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.DropDownListFor(m => m.EmpEducations.FromYear1,
+                        new SelectList(Enumerable.Range(1978, DateTime.Now.Year - 1977).ToList()), "select Year", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.EmpEducations.FromYear1)
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.DropDownListFor(m => m.EmpEducations.ToYear1,
+                        new SelectList(Enumerable.Range(1978, DateTime.Now.Year - 1977).ToList()), "select Year", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.EmpEducations.ToYear1)
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.Grade1, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.DocumentName1, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            <input type="file" class="multiple" name="files" accept="application/pdf" />
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid Gray;">
+                        <td style="border: 1px solid Gray;"> 12th or equivalent</td>
+
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.Location2, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.InstutionName2, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.DropDownListFor(m => m.EmpEducations.FromYear2,
+                        new SelectList(Enumerable.Range(1978, DateTime.Now.Year - 1977).ToList()), "select Year", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.EmpEducations.FromYear2)
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.DropDownListFor(m => m.EmpEducations.ToYear2,
+                        new SelectList(Enumerable.Range(1978, DateTime.Now.Year - 1977).ToList()), "select Year", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.EmpEducations.ToYear2)
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.Grade2, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.DocumentName2, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            <input type="file" class="multiple" name="files" accept="application/pdf" />
+                        </td>
+
+                    </tr>
+
+                    <tr style="border: 1px solid Gray;">
+                        <td style="border: 1px solid Gray;"> Graduation</td>
+
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.Location3, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.InstutionName3, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.DropDownListFor(m => m.EmpEducations.FromYear3,
+                        new SelectList(Enumerable.Range(1978, DateTime.Now.Year - 1977).ToList()), "select Year", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.EmpEducations.FromYear3)
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.DropDownListFor(m => m.EmpEducations.ToYear3,
+                        new SelectList(Enumerable.Range(1978, DateTime.Now.Year - 1977).ToList()), "select Year", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.EmpEducations.ToYear3)
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.Grade3, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.DocumentName3, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            <input type="file" class="multiple" name="files" accept="application/pdf" />
+                        </td>
+
+                    </tr>
+                    <tr style="border: 1px solid Gray;">
+                        <td style="border: 1px solid Gray;"> Post Graduation</td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.Location4, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.InstutionName4, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.DropDownListFor(m => m.EmpEducations.FromYear4,
+                        new SelectList(Enumerable.Range(1978, DateTime.Now.Year - 1977).ToList()), "select Year", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.EmpEducations.FromYear4)
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.DropDownListFor(m => m.EmpEducations.ToYear4,
+                        new SelectList(Enumerable.Range(1978, DateTime.Now.Year - 1977).ToList()), "select Year", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.EmpEducations.ToYear4)
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.Grade4, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            @Html.EditorFor(model => model.EmpEducations.DocumentName4, new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td style="border: 1px solid Gray;">
+                            <input type="file" class="multiple" name="files" accept="application/pdf" /> @*multiple*@
+                        </td>
+
+                    </tr>
+                </table>
+                <div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Insert" name="EmpEDU" class="btn btn-default" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*************************@
+            <div class="tab-pane " id="6b">
+                <h3 style="text-align:center;text-decoration:underline">EXPERIENCE DETAILS</h3>
+                <br><br />
+                @*<div><button id="btnPrint">Print Preview</button></div>*@
+                <div id="masterContent">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.EmpExperiences.Employee_UniqueId, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.EmpExperiences.Employee_UniqueId,
+                        new SelectList(ViewBag.EmployeeID, "Employee"), "select Employee", new
+                        {
+                            @class = "form-control",
+                            //required = "",
+                            @oninvalid = "this.setCustomValidity('Please Select Employee Id')",
+                            @oninput = "setCustomValidity('')"
+                        })
+                            @Html.ValidationMessageFor(m => m.EmpExperiences.Employee_UniqueId)
+                        </div>
+                    </div>
+                    <br><br />
+                    <br><br />
+                    <table style="border: 1px solid Gray;width:100%">
+                        <tr style="border: 1px solid Gray;">
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.Experience, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </th>
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.Cmp_Nm, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            </th>
+                            <th style="border: 1px solid Gray;">
+
+                                @Html.LabelFor(model => model.EmpExperiences.Cmp_Location, htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                            </th>
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.Division, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </th>
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.Department, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            </th>
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </th>
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.FromDate, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            </th>
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.ToDate, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            </th>
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.OtherInfo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            </th>
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.DocumentName, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            </th>
+                            <th style="border: 1px solid Gray;">
+                                @Html.LabelFor(model => model.EmpExperiences.Document, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            </th>
+                        </tr>
+                        <tr style="border: 1px solid Gray;">
+                            <td style="border: 1px solid Gray;">
+                                Experience #1
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Cmp_Nm1, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Cmp_Location1, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Division1, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Department1, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Title1, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.FromDate1, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmpExperiences.FromDate1, "", new { @class = "text-danger" })
+                                @*@Html.DropDownList("From Date1", new SelectList(Enumerable.Range(1988, DateTime.Now.Year - 1987).ToList()), " Select Year", htmlAttributes: new { @class = "form-control col-md-4" })*@
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.ToDate1, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmpExperiences.ToDate1, "", new { @class = "text-danger" })
+                                @* @Html.DropDownList("To Date1", new SelectList(Enumerable.Range(1988, DateTime.Now.Year - 1987).ToList()), " Select Year", htmlAttributes: new { @class = "form-control col-md-4" })*@
+
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.OtherInfo1, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.DocumentName1, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                <input type="file" class="multiple" name="files" accept="application/pdf" />
+                            </td>
+                        </tr>
+                        <tr style="border: 1px solid Gray;">
+                        <tr style="border: 1px solid Gray;">
+                            <td style="border: 1px solid Gray;">
+                                Experience #2
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Cmp_Nm2, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Cmp_Location2, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Division2, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Department2, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Title2, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.FromDate2, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmpExperiences.FromDate2, "", new { @class = "text-danger" })
+                                @* @Html.DropDownList("From Date2", new SelectList(Enumerable.Range(1988, DateTime.Now.Year - 1987).ToList()), " Select Year", htmlAttributes: new { @class = "form-control col-md-4" })*@
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.ToDate2, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmpExperiences.ToDate2, "", new { @class = "text-danger" })
+                                @* @Html.DropDownList("To Date2", new SelectList(Enumerable.Range(1988, DateTime.Now.Year - 1987).ToList()), " Select Year", htmlAttributes: new { @class = "form-control col-md-4" })*@
+
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.OtherInfo2, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.DocumentName2, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                <input type="file" class="multiple" name="files" accept="application/pdf" />
+                            </td>
+                        </tr>
+                        <tr style="border: 1px solid Gray;">
+                        <tr style="border: 1px solid Gray;">
+                            <td style="border: 1px solid Gray;">
+                                Experience #3
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Cmp_Nm3, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Cmp_Location3, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Division3, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Department3, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Title3, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.FromDate3, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmpExperiences.FromDate3, "", new { @class = "text-danger" })
+                                @*@Html.DropDownList("From Date3", new SelectList(Enumerable.Range(1988, DateTime.Now.Year - 1987).ToList()), " Select Year", htmlAttributes: new { @class = "form-control col-md-4" })*@
+
+                            </td>
+
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.ToDate3, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmpExperiences.ToDate3, "", new { @class = "text-danger" })
+                                @* @Html.DropDownList("To Date3", new SelectList(Enumerable.Range(1988, DateTime.Now.Year - 1987).ToList()), " Select Year", htmlAttributes: new { @class = "form-control col-md-4" })*@
+
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.OtherInfo3, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.DocumentName3, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                <input type="file" class="multiple" name="files" accept="application/pdf" />
+                            </td>
+                        </tr>
+                        <tr style="border: 1px solid Gray;">
+                        <tr style="border: 1px solid Gray;">
+
+                            <td style="border: 1px solid Gray;">
+                                Experience #4
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Cmp_Nm4, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Cmp_Location4, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Division4, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Department4, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.Title4, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.FromDate4, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmpExperiences.FromDate4, "", new { @class = "text-danger" })
+                                @* @Html.DropDownList("From Date4", new SelectList(Enumerable.Range(1988, DateTime.Now.Year - 1987).ToList()), " Select Year", htmlAttributes: new { @class = "form-control col-md-4" })*@
+
+                            </td>
+
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.ToDate4, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EmpExperiences.ToDate4, "", new { @class = "text-danger" })
+                                @*@Html.DropDownList("To Date4", new SelectList(Enumerable.Range(1988, DateTime.Now.Year - 1987).ToList()), " Select Year", htmlAttributes: new { @class = "form-control col-md-4" })*@
+
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.OtherInfo4, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                @Html.EditorFor(model => model.EmpExperiences.DocumentName4, new { htmlAttributes = new { @class = "form-control" } })
+                            </td>
+                            <td style="border: 1px solid Gray;">
+                                <input type="file" class="multiple" name="files" accept="application/pdf" />
+                            </td>
+                        </tr>
+                    </table>
+                    <br><br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Insert" name="EmpEXP" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*************************@
+            <div class="tab-pane " id="7b">
+                <h3 style="text-align:center;text-decoration:underline">Company Mail Details</h3>
+                <br><br />
+                @*<div><button id="btnPrint">Print Preview</button></div>*@
+                <div id="masterContent">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.EmpWorkMailId.EmployeeId, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.EmpWorkMailId.EmployeeId,
+                        new SelectList(ViewBag.EmployeeID, "Employee"), "select Employee", new
+                        {
+                            @class = "form-control",
+                            //required = "",
+                            //@id = "EMPWorkMail",
+                            @oninvalid = "this.setCustomValidity('Please Select Employee Id')",
+                            @oninput = "setCustomValidity('')"
+                        })
+                            @Html.ValidationMessageFor(m => m.EmpWorkMailId.EmployeeId)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmpWorkMailId.MailId, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.EmpWorkMailId.MailId, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           @id = "WorkMail",
+                           //required = "",
+                           @oninvalid = "this.setCustomValidity('Email Id is required')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.EmpWorkMailId.MailId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpWorkMailId.Password, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmpWorkMailId.Password, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               //required = "",
+                               @oninvalid = "this.setCustomValidity('Password is required')",
+                               @oninput = "setCustomValidity('')",
+                               @Value = "saaz"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.EmpWorkMailId.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br><br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Insert" name="EmpMail" class="btn btn-default" />
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @**********@
+        </div>
+        <br />
+        <div class="form-group">
+            <br />
+            <br />
+            <p>@ViewBag.Error<p />
+        </div>
+    </div>
+}
+
+

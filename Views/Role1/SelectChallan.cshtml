@@ -1,0 +1,56 @@
+﻿@model SaazApplication.Models.ChallanModel
+
+<script type="text/javascript">
+    function SelectedIndexChanged() {
+        //Form post
+        document.demoForm.submit();
+    }
+</script>
+
+@using (Html.BeginForm("SelectChallan", "Role1", FormMethod.Post, new { id = "demoForm", name = "demoForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div style="width:100%;height:100%">
+        <table style="width:100%;height:100%">
+            <tr>
+                <td>
+                    <h3 style="text-align:center;text-decoration:underline">DC Form</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @*<h4>ChallanModel</h4>*@
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DC_Number, new { @class = "control-label col-md-1" })
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(m => m.DC_Number, ViewData["DCNumber"] as SelectList, "Select DC Number",
+                                                  new
+                                                  {
+                                                      @class = "form-control",
+                                                      @id = "DC",
+                                                      required = "",
+                                                      @oninvalid = "this.setCustomValidity('DC number is required')",
+                                                      @oninput = "setCustomValidity('')"
+                                                  })
+                            @Html.ValidationMessageFor(m => m.DC_Number, "", new { @class = "text-danger", onchange = "SelectedIndexChanged()" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="View" class="btn btn-default" />
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+}

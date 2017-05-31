@@ -1,0 +1,410 @@
+﻿@model SaazApplication.Models.PO
+
+@using System.Web.Helpers;
+
+<link rel="stylesheet" type="text/css" href="print.css" />
+<link href="~/Content/S1.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery.print.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script type="text/javascript">
+    /*--This JavaScript method for Print command--*/
+
+    function PrintDoc() {
+        var toPrint = document.getElementById('printarea');
+        var popupWin = window.open('', '_blank', 'location=no,left=200px');
+        popupWin.document.open();
+        popupWin.document.write('<html><title></title></head><body onload="window.print()">')
+        popupWin.document.write(toPrint.innerHTML);
+        popupWin.document.write('</html>');
+        popupWin.document.close();
+    }
+</script>
+
+
+@using (Html.BeginForm("ViewPODetails", "Role1", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <body>
+        <div id="printarea" style="width:100%;height:100%">
+            <page size="A4">
+                <style>
+                    hr.style1 {
+                        border-collapse: collapse;
+                        border-top: 1px solid black;
+                        margin: 0px;
+                    }
+
+                    #gridT th:nth-child(2) {
+                        text-align: center;
+                    }
+                </style>
+                <div style="width:100%;">
+                    <table style="height:15px;"><tr><td></td></tr></table>
+                    <table style="width:100%;border: 1px solid black;">
+                        <tr>
+                            <td style="width:80%;">
+                                <div>
+                                    @if (ViewBag.Logo != null)
+                                    {
+                                        var base644 = ViewBag.Logo;
+                                        var imgSrc4 = String.Format("data:image/gif;base64,{0}", base644);
+                                        <img src="@imgSrc4" style="width:250px; height:80px" />
+                                    }
+                                </div>
+                            </td>
+                            <td style="width:20%">
+                                <strong><label style="word-wrap:break-word;float:left;font-family:'Segoe UI';font-size:xx-large">PO</label></strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <table style="width:100%;border-collapse: collapse;" align="center">
+                    <tr>
+                        <td style="width:100%;">
+                            <div style="width:100%;margin: 0px;">
+                                <table style="border-collapse: collapse;width:100%;">
+                                    <tr style="border: 1px solid black;">
+                                        <td style="width:36%;">
+                                            <div>
+                                                <table style="width:100%;">
+                                                    <tr>
+                                                        <td>
+                                                            Invoice To
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @if (ViewBag.CompanyName != null)
+                                                            {
+                                                                <strong>
+                                                                    <label style="word-wrap:break-word;float:left;font-family:'Segoe UI';font-size:medium">@ViewBag.CompanyName</label>
+                                                                </strong>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @if (ViewBag.FromAddress1 != null)
+                                                            {
+                                                                @ViewBag.FromAddress1
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @if (ViewBag.FromAddress2 != null)
+                                                            {
+                                                                @ViewBag.FromAddress2
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @if (ViewBag.FromAddress3 != null)
+                                                            {
+                                                                @ViewBag.FromAddress3
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border: solid #000 !important;border-width: 0 0px 1px 0 !important;">
+                                                            @if (ViewBag.FromAddress4 != null)
+                                                            {
+                                                                @ViewBag.FromAddress4
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Supplier
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @if (ViewBag.ToAddress1 != null)
+                                                            {
+                                                                <label style="word-wrap:break-word;float:left;font-family:'Arial';font-size:small">@ViewBag.ToAddress1</label>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @if (ViewBag.ToAddress2 != null)
+                                                            {
+                                                                @ViewBag.ToAddress2
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @if (ViewBag.ToAddress3 != null)
+                                                            {
+                                                                @ViewBag.ToAddress3
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            @if (ViewBag.ToAddress4 != null)
+                                                            {
+                                                                @ViewBag.ToAddress4
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td style="width:64%;border: 1px solid black;">
+                                            <div>
+                                                <table style="width:100%;height:100%;">
+                                                    <tr>
+                                                        <td style="height:100%;width:50%;">
+                                                            <table>
+
+                                                                <tr><td>Voucher No</td></tr>
+
+                                                                <tr><td><strong> @ViewBag.PO_Number</strong></td></tr>
+                                                            </table>
+                                                        </td>
+                                                        <td style="height:100%;width:50%">
+                                                            <div style="border-left: 1px solid black;">
+                                                                <table>
+                                                                    <tr><td> Date</td></tr>
+                                                                    <tr><td> <strong>@ViewBag.Date</strong></td></tr>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <table>
+                                                                <tr><td>Mode/Terms of Payment</td></tr>
+                                                                <tr><td> <strong>@ViewBag.ModeOfPayment</strong></td></tr>
+                                                                <hr class="style1" />
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <table>
+                                                                <tr><td> Destination</td></tr>
+                                                                <tr><td> <strong>@ViewBag.Destination</strong></td></tr>
+                                                                <hr class="style1" />
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <table>
+                                                                <tr><td>Terms of Delivery</td></tr>
+                                                                <tr><td> <strong>@ViewBag.TOD</strong></td></tr>
+                                                                <hr class="style1" />
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style="border: 1px solid black;margin: 0px;">
+                                        <td colspan="4" style="width:100%;margin: 0px;">
+                                            <div style=" margin 0px;">
+                                                @if (@ViewBag.RegisterItems != null)
+                                                {
+                                                    <link href="~/Content/S1.css" rel="stylesheet" />
+                                                    <script src="~/Scripts/jquery-1.10.2.js"></script>
+                                                    <script type="text/javascript">
+                                                        $(document).ready(function () {
+
+                                                            $('#gridMapping > tbody > tr').each(function (index) {
+
+                                                                if ($(this).children('td:nth-child(2)').text() == "Total") {
+                                                                    $(this).children('td:nth-child(2)').css("text-align", "end");
+                                                                } else {
+                                                                    $(this).children('td:nth-child(2)').css("text-align", "start");
+                                                                }
+                                                                $(this).children('td:nth-child(4)').css("text-align", "end");
+                                                                $(this).children('td:nth-child(6)').css("text-align", "end");
+
+                                                                $(this).children('td:nth-child(4)').css("width", "100px");
+                                                                $(this).children('td:nth-child(6)').css("width", "100px");
+                                                                $(this).children('td:nth-child(3)').css("width", "50px");
+                                                                $(this).children('td:nth-child(1)').css("width", "25px");
+
+                                                            });
+                                                        });
+                                                    </script>
+                                                    <style>
+                                                        .webgrid-table {
+                                                            font-family: 'Segoe UI';
+                                                            font-size: 1.1em;
+                                                            width: 100%;
+                                                            display: table;
+                                                            background-color: white;
+                                                            text-align: center;
+                                                            border-collapse: collapse;
+                                                            margin: 0px;
+                                                        }
+
+                                                            .webgrid-table td, th {
+                                                                /*border: solid #000 !important;*/
+                                                                border: 1px solid black;
+                                                                text-align: center;
+                                                                margin: 0px;
+                                                            }
+
+                                                        .webgrid-header {
+                                                            padding-bottom: 4px;
+                                                            padding-top: 5px;
+                                                            text-align: center;
+                                                        }
+                                                    </style>
+                                                    <table id="gridT" align="center" style="width:100%; margin: 0px;">
+                                                        <tr>
+                                                            <td align="center" style="width:100%; margin: 0px;">
+                                                                @if (ViewBag.RegisterItems != null)
+                                                                {
+                                                                    <div id="grid">
+                                                                        @{
+                                                                            var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems);
+                                                                            var TotalAmount = "Amount " + @ViewBag.Currency;
+                                                                            var Rate = "Rate " + @ViewBag.Currency;
+                                                                        }
+                                                                        @grid.GetHtml(
+                                                            htmlAttributes: new
+                                                            {
+                                                                id = "gridMapping"
+                                                            },
+                                                            tableStyle: "webgrid-table",
+                                                            //headerStyle: "webgrid-header",
+                                                            //footerStyle: "webgrid-footer",
+                                                            displayHeader: true,
+                                                            //rowStyle: "webgrid-row-style",
+                                                            mode: WebGridPagerModes.All,
+                                                            fillEmptyRows: false,
+                                                            //columns: ViewBag.Columns
+                                                            columns: grid.Columns(
+                                                            grid.Column("ID", "Sl No.", canSort: false),
+                                                            grid.Column(columnName: "Description", header: "Description Of Goods", canSort: false),
+                                                            grid.Column("Quantity", "Quantity Units", canSort: false),
+                                                            grid.Column("Rate", Rate, canSort: false),
+                                                            grid.Column("Per", "Per", canSort: false),
+                                                            grid.Column("TotalAmount", TotalAmount, canSort: false)
+                                                            )
+                                                            )
+                                                                    </div>
+                                                                            }
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                                            }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div style="width:100%;">
+                                <table style="width:100%;border-collapse: collapse;">
+                                    <tr>
+                                        <td style="width:70%;border: 1px solid black;" colspan="2">
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td style="width:90%">Amount Chargeable (in words)</td>
+                                                    <td align="right" style="width:10%">  E. & O.E</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <strong> @ViewBag.NumbersToWords</strong>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br />
+                            <div style="width:100%;">
+                                <table style="width:100%;border-collapse: collapse;">
+                                    <tr>
+                                        <td style="width:50%; border: 1px solid black;">
+
+                                            <table>
+                                                <tr>
+                                                    <td>Local Sales Tax No :<strong>@ViewBag.Local_Sales_Tax_Number</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Inter State Sales Tax No. :<strong>@ViewBag.Inter_State_Sales_Tax_Number</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Company's PAN :<strong>@ViewBag.Companys_PAN</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr></tr>
+                                            </table>
+                                        </td>
+                                        <td style="width:50%; border: 1px solid black;" align="right">
+                                            <table>
+                                                <tr>
+                                                    <td align="right">
+                                                        @if (ViewBag.CompanyName != null)
+                                                        {
+                                                            <strong>
+                                                                <label style="word-wrap:break-word;float:left;font-family:'Segoe UI';font-size:medium">For @ViewBag.CompanyName</label>
+                                                            </strong>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">
+                                                        &nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">
+                                                        <strong> Authorised Signatory</strong>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+                <div style="width:100%;">
+                    <table style="width:100%;">
+                        <tr>
+                            <td colspan="3" align="center">
+                                <table>
+                                    <tr><td align="center">SUBJECT TO HYDERABAD, INDIA JURISDICTION</td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </page>
+        </div>
+    </body>
+    <table align="center">
+        <tr>
+            <td align="center">
+                <div class="btn">
+                    <input type="button" value="Print" onclick="PrintDoc()" class="btn btn-primary" />
+                    <input type="submit" value="Back" name="IVNumberSelect" class="btn btn-default" />
+                </div>
+            </td>
+        </tr>
+    </table>
+
+                                                                            }

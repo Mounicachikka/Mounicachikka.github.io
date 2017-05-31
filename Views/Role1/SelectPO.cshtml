@@ -1,0 +1,53 @@
+﻿@model SaazApplication.Models.PO
+
+<script type="text/javascript">
+    function SelectedIndexChanged() {
+        //Form post
+        document.demoForm.submit();
+    }
+</script>
+
+@using (Html.BeginForm("SelectPO", "Role1", FormMethod.Post, new { id = "demoForm", name = "demoForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div style="width:100%;height:100%">
+        <table style="width:100%;height:100%">
+            <tr>
+                <td>
+                    <h3 style="text-align:center;text-decoration:underline">Invoice Form</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PO_Number, new { @class = "control-label col-md-1" })
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(m => m.PO_Number, ViewData["PONumber"] as SelectList, "Select PO Number",
+                                                  new
+                                                  {
+                                                      @class = "form-control",
+                                                      required = "",
+                                                      @oninvalid = "this.setCustomValidity('PO number is required')",
+                                                      @oninput = "setCustomValidity('')"
+                                                  })
+                            @Html.ValidationMessageFor(m => m.PO_Number, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="View" class="btn btn-default" />
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+}

@@ -1,0 +1,18 @@
+﻿@{
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+    string Layout1 = "";
+    if (controller == "Role1")
+    {
+        Layout1 = "~/Views/Shared/_Role1.cshtml";
+    }
+    else
+     if (controller == "Role2")
+    {
+        Layout1 = "~/Views/Shared/_Role2.cshtml";
+    }
+    else
+    {
+        Layout1 = "~/Views/Shared/_Layout.cshtml";
+    }
+    Layout = Layout1;
+}

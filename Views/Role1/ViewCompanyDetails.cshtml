@@ -1,0 +1,337 @@
+﻿@*@model SaazApplication.Models.CmpCombine
+@using System.Web.Helpers;
+
+<div id="grid">
+@if (ViewBag.RegisterItems != null)
+{
+
+    var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+    @grid.GetHtml(
+                tableStyle: "table",
+                headerStyle: "webgrid-header",
+                footerStyle: "webgrid-footer",
+                rowStyle: "webgrid-row-style",
+
+                alternatingRowStyle: "webgrid-alternating-row",
+                selectedRowStyle: "webgrid-selected-row",
+                mode: WebGridPagerModes.All,
+
+                fillEmptyRows: false,
+                columns: grid.Columns(
+                        grid.Column("CompanyDetails.ID", "ID", canSort: true),
+                        grid.Column(columnName: "CompanyDetails.Company", header: "Name", style: "span1", canSort: false),
+                        grid.Column("CompanyDetails.Abbrevation", "Abbrevation ", canSort: false),
+                        grid.Column("CompanyDetails.Website", "Website ", canSort: false),
+                        grid.Column("CompanyDetails.EmailID", "Mail ID ", canSort: false),
+                        grid.Column("CompanyDetails.MobileNo", "Contact Details ", canSort: false),
+                        grid.Column("CompanyDetails.City", "City ", canSort: false),
+                        grid.Column("CompanyDetails.Country", "Country ", canSort: false),
+                        grid.Column("BankDetails.BankName", "BankName", canSort: false)
+                        //grid.Column("", header: "Action", canSort: false,
+                        /*format: item => new HtmlString(""))*/
+                        //format: item => new HtmlString(Html.ActionLink("Edit", "EditCmpDetails", new { Id = item.Id }, null).ToString() + '|' +
+                        //                                                          Html.ActionLink("Delete", "DeleteCmp", new { id = item.Id }, null).ToString()))
+                        ))
+}
+else
+{
+    <div class="form-group">
+        <br />
+        <br />
+        <p>Company data is empty<p />
+    </div>
+}
+</div>*@
+
+@model IEnumerable<SaazApplication.Models.CmpCombine>
+@using System.Web.Helpers;
+<link href="@Url.Content("~/Content/WebgridStyle.css")" rel="stylesheet" type="text/css" />
+<div id="exTab3" class="container">
+    <ul class="nav nav-pills">
+        <li class="active">
+            <a href="#1b" data-toggle="tab">Basic</a>
+        </li>
+        <li>
+            <a href="#2b" data-toggle="tab">  Company Details</a>
+        </li>
+        <li>
+            <a href="#3b" data-toggle="tab">  Bank Details</a>
+        </li>
+        <li>
+                <a href="#4b" data-toggle="tab">  Certificates Details</a>
+            </li>
+
+    </ul>
+    <div class="tab-content clearfix">
+        @*******@
+        <div class="tab-pane  active" id="1b">
+            <h3 style="text-align:center;text-decoration:underline"> Basic Details</h3>
+            <br><br />
+
+
+            <div id="grid">
+
+                @if (ViewBag.RegisterItems != null)
+                {
+
+                    var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+                    @grid.GetHtml(
+                tableStyle: "table",
+                headerStyle: "webgrid-header",
+                footerStyle: "webgrid-footer",
+                rowStyle: "webgrid-row-style",
+
+                alternatingRowStyle: "webgrid-alternating-row",
+                selectedRowStyle: "webgrid-selected-row",
+                mode: WebGridPagerModes.All,
+
+                fillEmptyRows: false,
+                columns: grid.Columns(
+                        grid.Column("CompanyDetails.ID", "ID", canSort: true),
+                        grid.Column(columnName: "CompanyDetails.Company", header: "Name", style: "span1", canSort: false),
+                        grid.Column("CompanyDetails.Abbrevation", "Abbrevation ", canSort: false),
+                        grid.Column("CompanyDetails.Website", "Website ", canSort: false),
+                        grid.Column("CompanyDetails.EmailID", "Mail ID ", canSort: false),
+                        grid.Column("CompanyDetails.MobileNo", "Contact Details ", canSort: false),
+                        grid.Column("CompanyDetails.City", "City ", canSort: false),
+                        grid.Column("CompanyDetails.Country", "Country ", canSort: false),
+                        grid.Column("BankDetails.BankName", "BankName", canSort: false)
+                        //grid.Column("", header: "Action", canSort: false,
+                        /*format: item => new HtmlString(""))*/
+                        //format: item => new HtmlString(Html.ActionLink("Edit", "EditCmpDetails", new { Id = item.Id }, null).ToString() + '|' +
+                        //                                                          Html.ActionLink("Delete", "DeleteCmp", new { id = item.Id }, null).ToString()))
+                        ))
+                }
+                else
+                {
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <p>Company data is empty<p />
+                    </div>
+                }
+            </div>
+
+        </div>@* tab div*@
+        @********************************@
+        <div class="tab-pane  " id="2b">
+            <h3 style="text-align:center;text-decoration:underline">Company Details</h3>
+            <br><br />
+
+            <div id="grid">
+                @if (ViewBag.RegisterItems != null)
+                {
+
+                    var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+                    @grid.GetHtml(
+                tableStyle: "table",
+                headerStyle: "webgrid-header",
+                footerStyle: "webgrid-footer",
+                rowStyle: "webgrid-row-style",
+
+                alternatingRowStyle: "webgrid-alternating-row",
+                selectedRowStyle: "webgrid-selected-row",
+                mode: WebGridPagerModes.All,
+
+                fillEmptyRows: false,
+                columns: grid.Columns(
+                        grid.Column("CompanyDetails.ID", "ID", canSort: true),
+                        grid.Column(columnName: "CompanyDetails.Company", header: "Name", style: "span1", canSort: false),
+                        grid.Column("CompanyDetails.Abbrevation", "Abbrevation ", canSort: false),
+                        grid.Column("CompanyDetails.PlotNo", "PlotNo ", canSort: false),
+                        grid.Column("CompanyDetails.Street", "Street ", canSort: false),
+                         grid.Column("CompanyDetails.City", "City ", canSort: false),
+                         grid.Column("CompanyDetails.Pincode", "Pincode ", canSort: false),
+                         grid.Column("CompanyDetails.Country", "Country ", canSort: false),
+                         grid.Column("CompanyDetails.State", "State ", canSort: false),
+                        grid.Column("CompanyDetails.Website", "Website ", canSort: false),
+                        grid.Column("CompanyDetails.EmailID", "Mail ID ", canSort: false),
+                        grid.Column("CompanyDetails.MobileNo", "Contact Details ", canSort: false),
+                        grid.Column("CompanyDetails.Fax", " Fax", canSort: false),
+                        grid.Column(header: "Logo", format: @<text><img id="imgInp"
+                                                                        src="@String.Format("data:image/gif;base64,{0}",item.CompanyDetails.Logo)"
+                                                                        width="70"
+                                                                        height="70"
+                                                                        @*alt="@item.Logo"*@ /></text>, style: "Imagepix")
+                        //grid.Column("", header: "Action", canSort: false,
+                        /*format: item => new HtmlString(""))*/
+                        //format: item => new HtmlString(Html.ActionLink("Edit", "EditCmpDetails", new { Id = item.Id }, null).ToString() + '|' +
+                        //                                                          Html.ActionLink("Delete", "DeleteCmp", new { id = item.Id }, null).ToString()))
+                        ))
+                }
+                else
+                {
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <p>Company data is empty<p />
+                    </div>
+                }
+            </div>
+
+        </div>@*tab div*@
+        @***************************@
+
+        <div class="tab-pane  " id="3b">
+            <h3 style="text-align:center;text-decoration:underline">Company Bank Details</h3>
+            <br><br />
+
+
+            <div id="grid">
+                @if (ViewBag.RegisterItems != null)
+                {
+
+                    var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+                    @grid.GetHtml(
+                tableStyle: "table",
+                headerStyle: "webgrid-header",
+                footerStyle: "webgrid-footer",
+                rowStyle: "webgrid-row-style",
+
+                alternatingRowStyle: "webgrid-alternating-row",
+                selectedRowStyle: "webgrid-selected-row",
+                mode: WebGridPagerModes.All,
+
+                fillEmptyRows: false,
+                columns: grid.Columns(
+                        grid.Column("BankDetails.ID", "ID", canSort: true),
+                        grid.Column(columnName: "BankDetails.Company", header: " Company Name", style: "span1", canSort: false),
+                        grid.Column("BankDetails.AcHoldername", "Account Holder name ", canSort: false),
+                        grid.Column("BankDetails.Acnumber", "Account number ", canSort: false),
+                        grid.Column("BankDetails.BankName", "Bank Name ", canSort: false),
+                         grid.Column("BankDetails.IFSC", "IFSC ", canSort: false)
+
+                        //grid.Column("", header: "Action", canSort: false,
+                        /*format: item => new HtmlString(""))*/
+                        //format: item => new HtmlString(Html.ActionLink("Edit", "EditCmpDetails", new { Id = item.Id }, null).ToString() + '|' +
+                        //                                                          Html.ActionLink("Delete", "DeleteCmp", new { id = item.Id }, null).ToString()))
+                        ))
+                }
+                else
+                {
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <p>Company data is empty<p />
+                    </div>
+                }
+            </div>
+
+        </div>@*tab div*@
+        @*********************************@
+        <div class="tab-pane  " id="4b">
+            <h3 style="text-align:center;text-decoration:underline">Certificate Details</h3>
+            <br><br />
+
+            <div id="grid">
+                @if (ViewBag.RegisterItems != null)
+                {
+
+                    var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+                    @grid.GetHtml(
+                tableStyle: "table",
+                headerStyle: "webgrid-header",
+                footerStyle: "webgrid-footer",
+                rowStyle: "webgrid-row-style",
+                alternatingRowStyle: "webgrid-alternating-row",
+                selectedRowStyle: "webgrid-selected-row",
+                mode: WebGridPagerModes.All,
+                fillEmptyRows: false,
+                columns: grid.Columns(
+                     grid.Column("CompanyDetails.ID", "ID", canSort: true),
+                        grid.Column(columnName: "CompanyDetails.Company", header: "Name", style: "span1", canSort: false),
+                    grid.Column(header: "Corporate Identity Number", format:
+                    @<text>
+                        <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.CIN)" target="_blank">
+                            open CIN file
+                        </a>
+                    </text>),
+
+                    grid.Column(header: "Permanent Account Number", format:
+                    @<text>
+                        <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.PAN)" target="_blank">
+                            open PAN file
+                        </a>
+                    </text>),
+
+
+
+                                      grid.Column(header: "Employee Provident Fund", format:
+                                    @<text>
+                                        <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.EPF)" target="_blank">
+                                            open EPF file
+                                        </a>
+                                    </text>),
+
+                   grid.Column(header: "Articles of Association", format:
+                @<text>
+                    <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.AOA)" target="_blank">
+                        open AOA file
+                    </a>
+                </text>),
+                   grid.Column(header: "Tax deduction Account Number", format:
+                @<text>
+                    <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.TAN)" target="_blank">
+                        open TAN file
+                    </a>
+                </text>),
+                    grid.Column(header: "Professional Tax", format:
+                    @<text>
+                        <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.PT)" target="_blank">
+                            open PT file
+                        </a>
+                    </text>),
+
+                    grid.Column(header: "know Your Customer", format:
+                    @<text>
+                        <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.KYC)" target="_blank">
+                            open KYC file
+                        </a>
+                    </text>),
+
+                    grid.Column(header: "Memorandum of Association", format:
+                    @<text>
+                        <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.MOA)" target="_blank">
+                            open MOA file
+                        </a>
+                    </text>),
+
+                      grid.Column(header: "Employment State Insurance", format:
+                    @<text>
+                        <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.ESI)" target="_blank">
+                            open ESI file
+                        </a>
+                    </text>),
+
+                      grid.Column(header: "Import Export Certificate", format:
+                    @<text>
+                        <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.IEC)" target="_blank">
+                            open IEC file
+                        </a>
+                    </text>),
+
+                      grid.Column(header: "Aadhar", format:
+                    @<text>
+                        <a href="@String.Format("data:application/pdf;base64,{0}",item.CertificateDetails.UAD)" target="_blank">
+                            open UAD file
+                        </a>
+                    </text>)
+
+                         ))
+                }
+                else
+                {
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <p>Company data is empty<p />
+                    </div>
+                }
+            </div>
+
+        </div>
+
+        @**************************@
+    </div>
+</div>
+

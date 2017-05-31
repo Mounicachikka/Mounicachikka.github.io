@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SaazApplication.Models.CmpCombine >
+@using System.Web.Helpers;
+
+
+
+<div id="grid">
+
+    @{
+        var grid = new System.Web.Helpers.WebGrid(Model, rowsPerPage: 5,
+        defaultSort: "ID");
+    }
+    @grid.GetHtml(
+tableStyle: "table",
+headerStyle: "webgrid-header",
+footerStyle: "webgrid-footer",
+rowStyle: "webgrid-row-style",
+
+alternatingRowStyle: "webgrid-alternating-row",
+selectedRowStyle: "webgrid-selected-row",
+mode: WebGridPagerModes.All,
+fillEmptyRows: false,
+columns: grid.Columns(
+        grid.Column("ID", "ID", canSort: true),
+        grid.Column(columnName: "CompanyName", header: "Name", style: "span1", canSort: false),
+          grid.Column("Website", "Website ", canSort: false),
+          grid.Column("EmailID", "EmailID", canSort: false),
+         grid.Column("Address", "Address", canSort: false),
+        grid.Column("MobileNo", " ContactDetails", canSort: false),
+           grid.Column("Fax", "Fax", canSort: false),
+          grid.Column("", header: "Action", canSort: false,
+
+            format: item => new HtmlString(Html.ActionLink("Edit", "EditCmpDetails", new { Id = item.Id }, null).ToString() + '|' +
+                                                                      Html.ActionLink("Delete", "DeleteCmp", new { id = item.Id }, null).ToString()))
+        ))
+
+</div>
+
+
+

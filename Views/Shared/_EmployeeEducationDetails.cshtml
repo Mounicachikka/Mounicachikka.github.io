@@ -1,0 +1,138 @@
+﻿@model IEnumerable<SaazApplication.Models.EmpCombine>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <style>
+        .Qualification {
+            width: 150px;
+        }
+
+        .Year {
+            width: 50px;
+        }
+        .gridhide {   visibility:hidden;
+                
+                     
+        }
+    </style>
+    <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        $(function () {
+            $('.edit-mode4').hide();
+            $('.edit-user4, .cancel-user4').on('click', function () {
+                var tr = $(this).parents('tr:first');
+                tr.find('.edit-mode4, .display-mode4').toggle();
+            });
+
+            $('.save-user4').on('click', function () {
+                var tr = $(this).parents('tr:first');
+                var Qualification = tr.find("#Qualification").val();
+                var Location = tr.find("#Location").val();
+                var InstutionName = tr.find("#InstutionName").val();
+                var FromYear = tr.find("#FromYear").val();
+                var ToYear = tr.find("#ToYear").val();
+                var Grade = tr.find("#Grade").val();
+                var DocumentName = tr.find("#DocumentName").val();
+                var Document = tr.find("#Document").val();
+                var Employee_UniqueId = tr.find("#Employee_UniqueId").html();
+                //var ID = tr.find("#Id").html();
+                tr.find("#lblqual").text(Qualification);
+                tr.find("#lblloc").text(Location);
+                    tr.find("#lblinst").text(InstutionName);
+                    tr.find("#lblfrmyr").text(FromYear);
+                tr.find("#lbltoyr").text(ToYear);
+                tr.find("#lblgrd").text(Grade);
+                    tr.find("#lbldcn").text(DocumentName);
+                tr.find("#lbldoc").text(Document);
+
+                tr.find('.edit-mode4, .display-mode4').toggle();
+                var EmpCombine =
+                {
+                    "Employee_UniqueId": Employee_UniqueId,
+                    "Qualification":Qualification,
+                  "Location ":Location,
+                  "InstutionName":InstutionName,
+                  "FromYear ":FromYear ,
+                  "ToYear ":ToYear ,
+                  "Grade":Grade,
+                  "DocumentName ":DocumentName ,
+                  "Document ":Document ,
+
+                };
+                $.ajax({
+                    url: '/Role1/UpdateEductionalDetails/',
+                    data: JSON.stringify(EmpCombine),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        alert(data);
+                    }
+                });
+
+            });
+        })
+        </script>
+    <div id="grid">
+        <table style="width:60%" align="center">
+            <tr>
+                <td>
+                    @if (ViewBag.EmployeeEducationDetails != null)
+                    {
+                        var grid = new System.Web.Helpers.WebGrid(ViewBag.EmployeeEducationDetails, rowsPerPage: 5);
+                        @grid.GetHtml(
+                tableStyle: "table",
+                headerStyle: "webgrid-header",
+                footerStyle: "webgrid-footer",
+                rowStyle: "webgrid-row-style",
+                alternatingRowStyle: "webgrid-alternating-row",
+                selectedRowStyle: "webgrid-selected-row",
+                mode: WebGridPagerModes.All,
+
+                fillEmptyRows: false,
+                columns: grid.Columns(
+                  grid.Column( columnName: "Employee_UniqueId", header: "Employee_UniqueId", format: @<text>  <span class="display-mode4" >@item.Employee_UniqueId </span> <label id="Employee_UniqueId" class="edit-mode4">@item.Employee_UniqueId"</label> </text>, style: "gridhide"),
+                        grid.Column(columnName: "Qualification", header: "Qualification", format: @<text>  <span class="display-mode4"> <label id="lblqual">@item.Qualification</label> </span> <input type="text" id="Qualification" value="@item.Qualification" class="edit-mode4" /></text>, style: "col2Width", canSort: false),
+                        grid.Column("Location", "Location", format: @<text>  <span class="display-mode4"> <label id="lblloc">@item.Location</label> </span> <input type="text" id="Location" value="@item.Location" class="edit-mode4" /></text>, style: "col2Width", canSort: false),
+                        grid.Column("InstutionName", "Institution", format: @<text>  <span class="display-mode4"> <label id="lblinst">@item.InstutionName</label> </span> <input type="text" id="InstutionName" value="@item.InstutionName" class="edit-mode4" /></text>, style: "col2Width", canSort: false),
+                        grid.Column("FromYear", "FromYear", format: @<text>  <span class="display-mode4"> <label id="lblfrmyr">@item.FromYear</label> </span> <input type="text" id="FromYear" value="@item.FromYear" class="edit-mode4" /></text>, style: "col2Width", canSort: false),
+                         grid.Column("ToYear", "ToYear", format: @<text>  <span class="display-mode4"> <label id="lbltoyr">@item.ToYear</label> </span> <input type="text" id="ToYear" value="@item.ToYear" class="edit-mode4" /></text>, style: "col2Width", canSort: false),
+                         grid.Column("Grade", "Grade/Percent ", format: @<text>  <span class="display-mode4"> <label id="lblgrd">@item.Grade</label> </span> <input type="text" id="Grade" value="@item.Grade" class="edit-mode4" /></text>, style: "col2Width", canSort: false),
+                          grid.Column("DocumentName", "DocumentName", format: @<text>  <span class="display-mode4"> <label id="lbldcn">@item.DocumentName</label> </span> <input type="text" id="DocumentName" value="@item.DocumentName" class="edit-mode4" /></text>, style: "col2Width", canSort: false),
+                         grid.Column("Document", format:
+                        @<text><span class="display-mode4"> <label id="lbldoc"><a href="@String.Format("data:application/pdf;base64,{0}",item.Document)" target="_blank">open documents</a></label> </span> <input type="file" id="Document" value="@item.Document" class="edit-mode4" />
+                        </text>, style: "col2Width", canSort: false),
+                              grid.Column("Action", format: @<text>
+                        <button class="edit-user4 display-mode4">Edit</button>
+                        <button class="save-user4 edit-mode4" id="id4">Save</button>
+                        <button class="cancel-user4 edit-mode4">Cancel</button>
+                            </text>, style: "col3Width", canSort: false)
+                @*columns: grid.Columns(
+                        grid.Column(columnName: "Qualification", header: "Qualification", style: "Qualification", canSort: false),
+                        grid.Column("Location", "Location", canSort: false, style: "Qualification"),
+                        grid.Column("InstutionName", "Institution", canSort: false, style: "Qualification"),
+                        grid.Column("FromYear", "FromYear", canSort: false, style: "Year"),
+                         grid.Column("ToYear", "ToYear", canSort: false, style: "Year"),
+                         grid.Column("Grade", "Grade/Percent ", canSort: false, style: "Year"),
+                          grid.Column("DocumentName", "DocumentName", canSort: false, style: "Document"),
+                         grid.Column("Document", format:
+                        @<text> <a href="@String.Format("data:application/pdf,application/msword;base64,{0}",item.Document)" target="_blank">
+                                open certificates
+                            </a>
+                        </text>)*@
+
+                            ))
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <br />
+                            <br />
+                            <p>Education details for selected employee is empty<p />
+                        </div>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+
+}

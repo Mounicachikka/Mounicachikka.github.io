@@ -1,0 +1,145 @@
+﻿@model IEnumerable<SaazApplication.Models.EmpCombine>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <style>
+        .Location {
+            width: 150px;
+        }
+
+        .Date {
+            width: 50px;
+        }
+    </style>
+
+
+
+    <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.edit-mode5').hide();
+            $('.edit-user5, .cancel-user5').on('click', function () {
+                var tr = $(this).parents('tr:first');
+                tr.find('.edit-mode5, .display-mode5').toggle();
+            });
+
+            $('.save-user5').on('click', function () {
+                var tr = $(this).parents('tr:first');                             
+                var Cmp_Nm = tr.find("#Cmp_Nm").val();                            
+                var Cmp_Location = tr.find("#Cmp_Location").val();                
+                var Division = tr.find("#Division").val();                        
+                var Department = tr.find("#Department").val();                   
+                var Title = tr.find("#Title").val();                              
+                var FromDate = tr.find("#FromDate").val();
+                var ToDate = tr.file("#ToDate").val();
+                var OtherInfo = tr.find("OtherInfo").val();
+                var DocumentName = tr.find("#DocumentName").val();                
+                var Document = tr.find("#Document").val();                        
+                var Employee_UniqueId = tr.find("#Employee_UniqueId").html();
+                //var ID = tr.find("#Id").html();                                 
+                tr.find("#lblcmpnm").text(Qualification);
+                tr.find("#lblcmploc").text(Location);
+                tr.find("#lbldiv").text(InstutionName);
+                tr.find("#lbldepa").text(FromYear);
+                tr.find("#lbltitle").text(ToYear);
+                tr.find("#lblfrmdate").text(Grade);
+                tr.find("#lbltodate").text();
+                tr.find("#lbloinfo").text();
+                tr.find("#lbldocnm").text(DocumentName);
+                tr.find("#lbldoct").text(Document);
+
+                tr.find('.edit-mode5, .display-mode5').toggle();
+                var EmpCombine =
+                {
+                    "Employee_UniqueId":name,
+                    "Qualification":Qualification,
+                  "Location ":Location,
+                  "InstutionName":InstutionName,
+                  "FromYear ":FromYear ,
+                  "ToYear ":ToYear ,
+                  "Grade":Grade,
+                  "DocumentName ":DocumentName ,
+                  "Document ":Document ,
+
+                };
+                $.ajax({
+                    url: '/Role1/UpdateExperienceDetails/',
+                    data: JSON.stringify(EmpCombine),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        alert(data);
+                    }
+                });
+
+            });
+        })
+    </script>
+    <div id="grid">
+        <table style="width:60%" align="center">
+            <tr>
+                <td>
+                    @if (ViewBag.EmployeeExperienceDetails != null)
+                    {
+                        var grid = new System.Web.Helpers.WebGrid(ViewBag.EmployeeExperienceDetails, rowsPerPage: 5);
+                        @grid.GetHtml(
+                tableStyle: "table",
+                headerStyle: "webgrid-header",
+                footerStyle: "webgrid-footer",
+                rowStyle: "webgrid-row-style",
+                alternatingRowStyle: "webgrid-alternating-row",
+                selectedRowStyle: "webgrid-selected-row",
+                mode: WebGridPagerModes.All,
+
+                        fillEmptyRows: false,
+                columns: grid.Columns(
+
+                         grid.Column(columnName: "Employee_UniqueId", header: "Employee_UniqueId", format: @<text>  <span class="display-mode4">@item.Employee_UniqueId </span> <label id="Employee_UniqueId" class="edit-mode4">@item.Employee_UniqueId</label> </text>),
+                     grid.Column(columnName: "Cmp_Nm", header: "Company Name", format: @<text>  <span class="display-mode5"> <label id="lblcmpnm">@item.Cmp_Nm</label> </span> <input type="text" id="Cmp_Nm" value="@item.Cmp_Nm" class="edit-mode5" /></text>, style: "col2Width", canSort: false),
+                        grid.Column("Cmp_Location", "Location", format: @<text>  <span class="display-mode5"> <label id="lblcmploc">@item.Cmp_Location</label> </span> <input type="text" id="Cmp_Location" value="@item.Cmp_Location" class="edit-mode5" /></text>, style: "col2Width", canSort: false),
+                        grid.Column("Division", "Division", format: @<text>  <span class="display-mode5"> <label id="lbldiv">@item.Division</label> </span> <input type="text" id="Division" value="@item.Division" class="edit-mode5" /></text>, style: "col2Width", canSort: false),
+                        grid.Column("Department", "Department", format: @<text>  <span class="display-mode5"> <label id="lbldepa">@item.Department</label> </span> <input type="text" id="Department" value="@item.Department" class="edit-mode5" /></text>, style: "col2Width", canSort: false),
+                         grid.Column("Title", "Title", format: @<text>  <span class="display-mode5"> <label id="lbltitle">@item.Title</label> </span> <input type="text" id="Title" value="@item.Title" class="edit-mode5" /></text>, style: "col2Width", canSort: false),
+                          grid.Column("FromDate", "From Date", format: @<text>  <span class="display-mode5"> <label id="lblfrmdate">@item.FromDate</label> </span> <input type="text" id="FromDate" value="@item.FromDate" class="edit-mode5" /></text>, style: "col2Width", canSort: false),
+                           grid.Column("ToDate", "To Date", format: @<text>  <span class="display-mode5"> <label id="lbltodate">@item.ToDate</label> </span> <input type="text" id="ToDate" value="@item.ToDate" class="edit-mode5" /></text>, style: "col2Width", canSort: false),
+                         grid.Column("OtherInfo", "Other Information", format: @<text>  <span class="display-mode5"> <label id="lbloinfo">@item.OtherInfo</label> </span> <input type="text" id="OtherInfo" value="@item.OtherInfo" class="edit-mode5" /></text>, style: "col2Width", canSort: false),
+                          grid.Column("DocumentName", "DocumentName", format: @<text>  <span class="display-mode5"> <label id="lbldocnm">@item.DocumentName</label> </span> <input type="text" id="DocumentName" value="@item.DocumentName" class="edit-mode5" /></text>, style: "col2Width", canSort: false),
+                         grid.Column("Document", format:
+                        @<text><span class="display-mode5"> <label id="lbldoct"><a href="@String.Format("data:application/pdf;base64,{0}",item.Document)" target="_blank">open documents</a></label> </span> <input type="file" id="Document" value="@item.Document" class="edit-mode5" />
+                        </text>, style: "col2Width", canSort: false),
+                                                  grid.Column("Action", format: @<text>
+                        <button class="edit-user5 display-mode5">Edit</button>
+                        <button class="save-user5 edit-mode5" id="id5">Save</button>
+                        <button class="cancel-user5 edit-mode5">Cancel</button>
+                                                </text>, style: "col3Width", canSort: false)
+                        @*grid.Column(columnName: "Cmp_Nm", header: "Company Name", style: "Company Name", canSort: false),
+                        grid.Column("Cmp_Location", "Location", canSort: false, style: "Location"),
+                        grid.Column("Division", "Division", canSort: false, style: "Division"),
+                        grid.Column("Department", "Department", canSort: false, style: "Department"),
+                         grid.Column("Title", "Title", canSort: false, style: "Title"),
+                          grid.Column("FromDate", "From Date", canSort: false, style: "Date"),
+                           grid.Column("ToDate", "To Date", canSort: false, style: "Date"),
+                         grid.Column("OtherInfo", "Other Information", canSort: false, style: "Other Information"),
+                          grid.Column("DocumentName", "DocumentName", canSort: false, style: "Document"),
+                         grid.Column("Document", format:
+                        @<text> <a href="@String.Format("data:application/pdf;base64,{0}",item.Document)" target="_blank">
+                                open certificates
+                            </a>
+                        </text>)*@
+                        ))
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <br />
+                            <br />
+                            <p>Experience details for selected employee is empty<p />
+                        </div>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+
+}

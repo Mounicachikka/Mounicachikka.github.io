@@ -1,0 +1,476 @@
+﻿@model IEnumerable<SaazApplication.Models.ChallanModel>
+
+@using System.Web.Helpers;
+<link rel="stylesheet" type="text/css" href="print.css" />
+<link href="~/Content/S1.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery.print.js"></script>
+<script type="text/javascript">
+    /*--This JavaScript method for Print command--*/
+
+    function PrintDoc() {
+        var toPrint = document.getElementById('printarea');
+        var popupWin = window.open('', '_blank', 'location=no,left=200px');
+        popupWin.document.open();
+        popupWin.document.write('<html><title></title></head><body onload="window.print()">')
+        popupWin.document.write(toPrint.innerHTML);
+        popupWin.document.write('</html>');
+        popupWin.document.close();
+    }
+</script>
+
+<style>
+    #gridT th:nth-child(2) {
+        text-align: center;
+    }
+</style>
+
+
+
+
+@using (Html.BeginForm("ViewChallanDetails", "Role2", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <body>
+        <div id="printarea" style="width:100%;height:100%">
+            <page size="A4">
+                <header style="height:80px;width:100%;margin-top:0;">
+                    <aside>
+                        <div>
+                            <table style="width:100%">
+                                <tr>
+                                    <td style="width:75%">
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <div style="float:left">
+                                                            @if (ViewBag.Logo != null)
+                                                        {
+                                                        var base644 = ViewBag.Logo;
+                                                        var imgSrc4 = String.Format("data:image/gif;base64,{0}", base644);
+                                                            <img src="@imgSrc4" style="width:150px; height:50px" />
+                                                        }
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                    </td>
+                                    <td style="width:25%">
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <div style="float:left">
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div style="float:left">
+                                                            @if (ViewBag.CompanyName != null)
+                                                        {
+                                                            <label style="word-wrap:break-word;float:right;font-family:'Segoe UI';font-size:small">@ViewBag.CompanyName</label>
+                                                        }
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div style="float:left">
+                                                            @if (ViewBag.FromAddress1 != null)
+                                                        {
+                                                            <label style="word-wrap:break-word;float:right;font-family:Arial;font-size:x-small">@ViewBag.FromAddress1</label>
+                                                        }
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div style="float:left">
+                                                            @if (ViewBag.FromAddress2 != null)
+                                                        {
+                                                            <label style="word-wrap:break-word;float:right;font-family:'Arial';font-size:x-small">@ViewBag.FromAddress2</label>
+                                                        }
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.FromAddress3 != null)
+                                                    {
+                                                        <div style="float:left">
+                                                            <label style="word-wrap:break-word;float:right;font-family:'Arial';font-size:x-small">@ViewBag.FromAddress3</label>
+                                                        </div>
+                                                    }
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.FromAddress4 != null)
+                                                    {
+                                                        <div style="float:left">
+                                                            <label style="word-wrap:break-word;float:right;font-family:'Arial';font-size:x-small">@ViewBag.FromAddress4</label>
+                                                        </div>
+                                                    }
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br />
+                    </aside>
+                </header>
+                <hr style="color:black;background:black;width:95%;height:1px;">
+                <div style="width:100%;height:90%">
+                    <aside>
+                        <div>
+                            <table style="width:100%">
+                                <tr>
+                                    <td style="width:75%">
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                    </td>
+                                    <td style="width:25%">
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <div style="float:left">
+                                                            @if (ViewBag.Date != null)
+                                                            {
+                                                                <strong>
+                                                                    <label style="word-wrap:break-word;float:right;font-family:'Segoe UI';font-size:small">Date :@ViewBag.Date</label>
+                                                                </strong>
+                                                            }
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div style="float:left">
+                                                            @if (ViewBag.Dc_Number != null)
+                                                            {
+                                                                <strong>
+                                                                    <label style="word-wrap:break-word;float:right;font-family:'Segoe UI';font-size:small">@ViewBag.Dc_Number</label>
+                                                                </strong>
+                                                            }
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </aside>
+                    <div style="text-align:center"><strong><u>DELIVERY CHALLAN</u></strong></div>
+                    <br />
+                    <div>
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:100%;" colspan="5">
+                                    <article>
+                                        <div>
+                                            <section>
+                                                <table>
+                                                    <tr>
+                                                        <td style="width:12px"></td>
+                                                        <td>
+                                                            <div style="float:left;word-wrap:break-word">
+                                                                <label><strong>To Address</strong></label>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:12px"></td>
+                                                        <td>
+                                                            <div style="float:left">
+                                                                @if (ViewBag.ToAddress1 != null)
+                                                                {
+                                                                    <label style="word-wrap:break-word;float:right;font-family:Arial;font-size:small">@ViewBag.ToAddress1</label>
+                                                                }
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:12px"></td>
+                                                        <td>
+                                                            <div style="float:left">
+                                                                @if (ViewBag.ToAddress2 != null)
+                                                                {
+                                                                    <label style="word-wrap:break-word;float:right;font-family:Arial;font-size:small">@ViewBag.ToAddress2</label>
+                                                                }
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:12px"></td>
+                                                        <td>
+                                                            <div style="float:left">
+                                                                @if (ViewBag.ToAddress3 != null)
+                                                                {
+                                                                    <label style="word-wrap:break-word;float:right;font-family:Arial;font-size:small">@ViewBag.ToAddress3</label>
+                                                                }
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:12px"></td>
+                                                        <td>
+                                                            <div style="float:left">
+                                                                @if (ViewBag.ToAddress4 != null)
+                                                                {
+                                                                    <label style="word-wrap:normal;float:right;font-family:Arial;font-size:small">@ViewBag.ToAddress4</label>
+                                                                }
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:12px"></td>
+                                                        <td>
+                                                            <br />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:12px"></td>
+                                                        <td>
+                                                            <div style="float:left">
+                                                                @if (ViewBag.Subject != null)
+                                                                {
+                                                                    <div style="text-align:left"><strong>SUB:</strong>@ViewBag.Subject</div>
+                                                                }
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:12px"></td>
+                                                        <td>
+                                                            <br />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:12px"></td>
+                                                        <td>
+                                                            <div style="float:left">
+                                                                <div style="text-align:left"><strong>Dear Sir/Madam,</strong></div>
+                                                                @if (ViewBag.Matter != null)
+                                                                {
+                                                                    <p>
+                                                                        <div style="text-align:left;max-width:none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@ViewBag.Matter</div>
+                                                                    </p>
+                                                                    <br />
+                                                                }
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </section>
+                                        </div>
+                                        <br />
+                                    </article>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <style>
+                            body {
+                                background: rgb(204,204,204);
+                            }
+
+                            page {
+                                background: white;
+                                display: block;
+                                margin: 0 auto;
+                                margin-bottom: 0.5cm;
+                                box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+                            }
+
+                            body {
+                                background: rgb(204,204,204);
+                            }
+
+                            page {
+                                background: white;
+                                display: block;
+                                margin: 0 auto;
+                                margin-bottom: 0.5cm;
+                                box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+                            }
+
+                                page[size="A4"] {
+                                    width: 21cm;
+                                    height: 29.7cm;
+                                }
+
+                                    page[size="A4"][layout="portrait"] {
+                                        width: 29.7cm;
+                                        height: 21cm;
+                                    }
+
+                                page[size="A3"] {
+                                    width: 29.7cm;
+                                    height: 42cm;
+                                }
+
+                                    page[size="A3"][layout="portrait"] {
+                                        width: 42cm;
+                                        height: 29.7cm;
+                                    }
+
+                                page[size="A5"] {
+                                    width: 14.8cm;
+                                    height: 21cm;
+                                }
+
+                                    page[size="A5"][layout="portrait"] {
+                                        width: 21cm;
+                                        height: 14.8cm;
+                                    }
+
+                            .webgrid-table {
+                                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                                font-size: 1.2em;
+                                width: 100%;
+                                display: table;
+                                border-collapse: separate;
+                                /*border: solid 1px #98BF21;*/
+                                background-color: white;
+                                border: solid #000 !important;
+                                border-width: 1px 0 0 1px !important;
+                                text-align: center;
+                            }
+
+                                .webgrid-table td, th {
+                                    border: solid #000 !important;
+                                    border-width: 0 1px 1px 0 !important;
+                                    /*border: 1px solid #98BF21;*/
+                                    padding: 3px 7px 2px;
+                                    text-align: center;
+                                }
+
+                            .webgrid-header {
+                                background-color: #FFFFFF;/*#A7C942;*/
+                                color: black;/*#FFFFFF;*/
+                                padding-bottom: 4px;
+                                padding-top: 5px;
+                                text-align: center;
+                            }
+
+                            .webgrid-footer {
+                            }
+
+                            /*.webgrid-row-style {
+                                padding: 3px 7px 2px;
+                            }
+
+                            .webgrid-alternating-row {
+                                background-color: #EAF2D3;
+                                padding: 3px 7px 2px;
+                            }*/
+
+                            .alignment {
+                                text-align: center;
+                            }
+                        </style>
+                        <table align="center" style="width:100%">
+                            <tr>
+                                <td style="width:15%"></td>
+                                <td align="center" style="width:70%">
+                                    <div id="grid">
+                                        @{
+                                            var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems);
+                                        }
+                                        @grid.GetHtml(
+                                    tableStyle: "webgrid-table",
+                                    headerStyle: "webgrid-header",
+                                    footerStyle: "webgrid-footer",
+                                    displayHeader: true,
+                                    //alternatingRowStyle: "webgrid-alternating-row",
+                                    //selectedRowStyle: "webgrid-selected-row",
+                                    rowStyle: "webgrid-row-style",
+                                    mode: WebGridPagerModes.All,
+                                    fillEmptyRows: false,
+                                    columns: grid.Columns(
+                                    grid.Column("ID", "S.No", canSort: false, style: "alignment"),
+                                    grid.Column(columnName: "Description", header: "Description", style: "span1", canSort: false),
+                                    grid.Column("Quantity", " Quantity", canSort: false),
+                                    grid.Column("Returnable", "Returnable", canSort: false)
+                                    ))
+                                    </div>
+                                </td>
+                                <td style="width:15%"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" align="center">
+                                    <br />
+                                    <br />
+                                    <div style="text-align:center">Thankyou</div>
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right">
+                                    <br />
+                                    <br />
+                                    <div style="text-align:right">Your's Sincerely</div>
+                                    <br />
+                                </td>
+                                <td style="width:5%"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div style="width:100%;height:10%">
+                    @*<hr />*@
+                    <table align="center">
+                        <tr>
+                            <td align="center">
+                                <strong><label>Emailid:</label></strong><a href="mailto:@{@ViewBag.Mail}">@ViewBag.Mail</a>
+                                &nbsp;&nbsp;<strong><label>Phone:</label></strong>@ViewBag.Phone
+                            </td>
+                        </tr>
+                        @*<tr>
+                                <td align="center">
+                                    <strong><label>Website</label></strong><a href="@(ViewBag.Website)">@ViewBag.Website</a>
+                                    &nbsp;&nbsp;<strong><label>Fax</label></strong>@ViewBag.Fax
+                                </td>
+                            </tr>*@
+                    </table>
+                </div>
+            </page>
+        </div>
+    </body>
+    <table align="center">
+        <tr>
+            <td align="center">
+                <div class="btn">
+                    @*<input type="submit" value="Insert" class="btn btn-default" />*@
+                    <input type="button" value="Print" onclick="PrintDoc()" class="btn btn-primary" />
+                    @*<input type="button" value="Print Preview" onclick="PrintPreview()" />*@
+                    <input type="submit" value="Back" name="DCNumberSelect" class="btn btn-default" />
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    }

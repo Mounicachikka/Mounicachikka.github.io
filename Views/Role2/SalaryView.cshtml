@@ -1,0 +1,281 @@
+﻿@model SaazApplication.Models.SalaryModel
+@using System.Web.Helpers;
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jQuery.print.js"></script>
+<script type="text/javascript">
+    /*--This JavaScript method for Print command--*/
+    function PrintDoc() {
+        var toPrint = document.getElementById('printarea');
+        var popupWin = window.open('', '_blank', 'location=no,left=200px');
+        popupWin.document.open();
+        popupWin.document.write('<html><title></title></head><body onload="window.print()">')
+        popupWin.document.write(toPrint.innerHTML);
+        popupWin.document.write('</html>');
+        popupWin.document.close();
+    }
+</script>
+@if (ViewBag.Error != null)
+{
+    <script>
+        $(document).ready(function () {
+            alert('@ViewBag.Error');
+        });
+    </script>
+}
+
+@using (Html.BeginForm("SalaryView", "Role2", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div id="exTab3" class="container">
+        <h3 style="text-align:center;text-decoration:underline">SALARY DETAILS</h3>
+        <br><br />
+        <div class="form-group">
+            @*@Html.LabelFor(m => m.Employee, htmlAttributes: new { @class = "control-label col-md-1" })*@
+            @*<div class="col-md-2">
+                @Html.DropDownListFor(m => m.Employee,
+                       new SelectList(ViewBag.EmployeeID, "Employee"), "select Employee", new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please Select Employee Id')",
+                           @oninput = "setCustomValidity('')"
+                       })
+                @Html.ValidationMessageFor(m => m.Employee)
+            </div>*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Salary_for_mnth, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.DropDownListFor(model => model.Salary_for_mnth, ViewData["Months"] as SelectList,
+                                                "Select Month", new
+                                                {
+                                                    @class = "form-control",
+                                                    required = "",
+                                                    @oninvalid = "this.setCustomValidity('Please Select Month')",
+                                                    @oninput = "setCustomValidity('')"
+                                                })
+                    @Html.ValidationMessageFor(model => model.Salary_for_mnth, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Salary_for_yr, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.DropDownListFor(m => m.Salary_for_yr,
+               new SelectList(Enumerable.Range(2017, DateTime.Now.Year - 2016).ToList()), "Select Year", new
+               {
+                   @class = "form-control",
+                   required = "",
+                   @oninvalid = "this.setCustomValidity('Please Select Year')",
+                   @oninput = "setCustomValidity('')"
+               })
+                    @Html.ValidationMessageFor(model => model.Salary_for_yr, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <br><br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Get Salary Details" class="btn btn-default" style="text-decoration:none; float:left" />
+                <br />
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+        </div>
+        @if (ViewBag.RegisterItems != null)
+        {
+            <div>
+                <table align="center">
+                    <tr>
+                        <td align="center">
+                            <div class="btn">
+                                <input type="button" value="Print" onclick="PrintDoc()" class="btn btn-primary" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="printarea">
+                <page size="A4">
+                    <br />
+                    <table style="border:1px solid;width:95%" align="center">
+                        <tr>
+                            <td colspan="4">
+                                <table style="width:100%">
+                                    <tr>
+                                        <td colspan="4" align="center" style="border: solid #000 !important;border-width: 0 0px 1px 0 !important;padding: 3px 7px 2px;">
+                                            <h2>@ViewBag.Company</h2>
+                                            <br />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" align="center">
+                                            <h4> Pay Slip for @ViewBag.Formonth @ViewBag.ForYear</h4>
+                                            <br />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%">
+                                            <strong>Name :</strong>
+                                        </td>
+                                        <td style="width:30%">@ViewBag.Name</td>
+                                        <td style="width:20%"><strong>Emp Id:</strong></td>
+                                        <td style="width:30%">@ViewBag.Id</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><strong>Date Of Jouning:</strong></td>
+                                        <td>@ViewBag.DOJ</td>
+                                        <td>
+                                            <strong>Department :</strong>
+                                        </td>
+                                        <td>@ViewBag.Department</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PAN No</strong></td>
+                                        <td>@ViewBag.Pan</td>
+                                        <td>
+                                            <strong>Days Paid :</strong>
+                                        </td>
+                                        <td>@ViewBag.DaysPaid</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Email-Id :</strong>
+                                        </td>
+                                        <td>@ViewBag.WMailId</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    @*<tr>
+                                            <td>Bank:</td>
+                                            <td>@ViewBag.BankName</td>
+                                            <td>
+                                                <strong>Account Number :</strong>
+                                            </td>
+                                            <td>@ViewBag.AccountNumber</td>
+                                        </tr>*@
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;width:30%" align="center" colspan="4"></td>
+                        </tr>
+                        <tr>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;width:30%" align="center"><strong>Earnings</strong></td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;width:20%">Amount in RS.</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;width:30%" align="center">
+                                <strong>Deduction/Others</strong>
+                            </td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;width:20%">Amount in RS.</td>
+                        </tr>
+                        <tr>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.BasicSalary, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.BasicSalary</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.TDS, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.TDS</td>
+                        </tr>
+                        <tr>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.HRA, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.HRA</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.Prof_Tax, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.PT</td>
+                        </tr>
+                        <tr>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.SPL_ALW, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.Spl_AWL</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.PF, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.PF</td>
+                        </tr>
+                        <tr style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.Con_ALW, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.Cny_AWL</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.Advances, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.Advances</td>
+                        </tr>
+                        <tr style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.MedicalReimbursement, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.MedicalReimbursement</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.Reimbursement, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.Reimbursement</td>
+                        </tr>
+                        <tr style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.AnualBonus, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.AnualBonus</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;"></td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right"></td>
+                        </tr>
+                        <tr style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.Other, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.Others</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;"></td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right"></td>
+                        </tr>
+                        <tr style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">@Html.LabelFor(model => model.Loc_ALW, htmlAttributes: new { @class = " control-label" })</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right">@ViewBag.LocationAllowance</td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;"></td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right"></td>
+                        </tr>
+                        <tr style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;">
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;"><strong> Gross Salary</strong></td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right"><strong>@ViewBag.TotalBenefit</strong></td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;"><strong> Total Deduction</strong></td>
+                            <td style="border: solid #000 !important;border-width: 0 1px 1px 0 !important;padding: 3px 7px 2px;text-align:right"><strong>@ViewBag.TotalDeduction</strong></td>
+                        </tr>
+                        <tr style="height:10px">
+                            <td><strong></strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Net Salary</strong></td>
+                            <td align="right"><strong>@ViewBag.TotalSalary</strong></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr style="height:25px">
+                            <td><strong></strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr style="height:10px">
+                            <td colspan="2"><strong>Employee Signature</strong></td>
+                            <td colspan="2" align="center"><strong>@ViewBag.Company</strong></td>
+                        </tr>
+                        <tr style="height:25px">
+                            <td><strong></strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr style="height:10px">
+                            <td colspan="2"></td>
+                            <td align="center" colspan="2"><strong>Director</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td align="center" colspan="2">Autogenerated Salary Payslip</td>
+                        </tr>
+                    </table>
+                </page>
+            </div>
+        }
+
+        <br />
+        <div class="form-group">
+            <br />
+            <br />
+            <p>@ViewBag.Error<p />
+        </div>
+    </div>
+}
+

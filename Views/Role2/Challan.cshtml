@@ -1,0 +1,271 @@
+﻿@model SaazApplication.Models.Delivery_Challan
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+@if (ViewBag.Error != null)
+{
+    <script>
+        $(document).ready(function () {
+            alert('@ViewBag.Error');
+        });
+    </script>
+}
+
+@using (Html.BeginForm("Challan", "Role2", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h3 style="text-align:center;text-decoration:underline">CHALLAN  DETAILS</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.From_Company, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.From_Company,
+                       new SelectList(ViewBag.CompanyName, "Company"), "select Company", new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please select Company')",
+                           @oninput = "setCustomValidity('')"
+                       })
+                @Html.ValidationMessageFor(m => m.From_Company)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Date, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       required = "",
+                       @oninvalid = "this.setCustomValidity('Please select Date')",
+                       @oninput = "setCustomValidity('')"
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ToAddress, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ToAddress, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please enter ToAddress')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.ToAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Subject, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   required = "",
+                   @oninvalid = "this.setCustomValidity('Please enter Subject')",
+                   @oninput = "setCustomValidity('')"
+               }
+           })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Matter, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Matter, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       required = "",
+                       @oninvalid = "this.setCustomValidity('Please enter Matter')",
+                       @oninput = "setCustomValidity('')"
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.Matter, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <table style="border: 1px solid Gray;width:80%">
+                            <tr style="border: 1px solid Gray;text-align:center">
+                                <th style="border: 1px solid Gray;width:10%;text-align:center">
+                                    <strong>S.No</strong>
+                                </th>
+                                <th style="border: 1px solid Gray;width:20%;text-align:center">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { style = "align: center", @class = "control-label col-md-1" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%">
+                                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-1" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%">
+                                    @Html.LabelFor(model => model.Returnable, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%;text-align:center">
+                                    <strong>S.No</strong>
+                                </th>
+                                <th style="border: 1px solid Gray;width:20%;text-align:center">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { style = "align: center", @class = "control-label col-md-1" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%">
+                                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-1" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%">
+                                    @Html.LabelFor(model => model.Returnable, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </th>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center;"><strong>1.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description1, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 550px;height: 60px",
+                                       @class = "form-control",
+                                       required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Description')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity1, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Quantity')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.DropDownListFor(model => model.Returnable1, ViewData["Returnable"] as SelectList,
+                                                "Select Type", new
+                                                {
+                                                    style = "width: 150px;height: 60px",
+                                                    @class = "form-control",
+                                                    required = "",
+                                                    @oninvalid = "this.setCustomValidity('Select Returnable or not')",
+                                                    @oninput = "setCustomValidity('')"
+                                                })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>2.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description2, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity2, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.DropDownListFor(model => model.Returnable2, ViewData["Returnable"] as SelectList,
+                                                "Select Type", new { style = "width: 150px;height: 60px", @class = "form-control" })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>3.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description3, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity3, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.DropDownListFor(model => model.Returnable3, ViewData["Returnable"] as SelectList,
+                                                "Select Type", new { style = "width: 150px;height: 60px", @class = "form-control" })
+
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>4.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description4, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity4, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.DropDownListFor(model => model.Returnable4, ViewData["Returnable"] as SelectList,
+                                                "Select Type", new { style = "width: 150px;height: 60px", @class = "form-control" })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>5.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description5, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity5, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.DropDownListFor(model => model.Returnable5, ViewData["Returnable"] as SelectList,
+                                                "Select Type", new { style = "width: 150px;height: 60px", @class = "form-control" })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>6.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description6, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity6, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.DropDownListFor(model => model.Returnable6, ViewData["Returnable"] as SelectList,
+                                                "Select Type", new { style = "width: 150px;height: 60px", @class = "form-control" })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>7.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description7, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity7, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.DropDownListFor(model => model.Returnable7, ViewData["Returnable"] as SelectList,
+                                                "Select Type", new { style = "width: 150px;height: 60px", @class = "form-control" })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>8.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description8, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity8, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.DropDownListFor(model => model.Returnable8, ViewData["Returnable"] as SelectList,
+                                                "Select Type", new { style = "width: 150px;height: 60px", @class = "form-control" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Generate DC" class="btn btn-default" />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <br />
+            <br />
+            <p>@ViewBag.Error<p />
+        </div>
+    </div>
+}
+

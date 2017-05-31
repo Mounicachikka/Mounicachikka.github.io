@@ -1,0 +1,510 @@
+﻿@model SaazApplication.Models.CmpCombine
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+
+
+
+
+
+
+
+   
+
+    @using (Html.BeginForm("AddCompany", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div id="exTab3" class="container">
+            <ul class="nav nav-pills">
+                <li class="active">
+                    <a href="#1b" data-toggle="tab">Company</a>
+                </li>
+                <li>
+                    <a href="#2b" data-toggle="tab">Certificates</a>
+                </li>
+                <li>
+                    <a href="#3b" data-toggle="tab">BankDetails</a>
+                </li>
+
+            </ul>
+            <div class="tab-content clearfix">
+                <div class="tab-pane active" id="1b">
+                    <h3 style="text-align:center;text-decoration:underline">COMPANY DETAILS</h3>
+                    <br><br />
+                    <hr />
+            
+
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpModels.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CmpModels.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CmpModels.CompanyName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <br>
+                    <br />
+                    <h4>Address</h4>
+                    <hr />
+
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpModels.PlotNo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.CmpModels.PlotNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CmpModels.PlotNo, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CmpModels.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.CmpModels.Street, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CmpModels.Street, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CmpModels.City, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(model => model.CmpModels.City, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.CmpModels.City, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <br>
+                    <br />
+
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpModels.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.CmpModels.Pincode, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CmpModels.Pincode, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CmpModels.State, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    <div class="col-md-2">
+                                        @Html.DropDownListFor(model => model.CmpModels.StateId, new SelectList(Model.CmpModels.State, "Value", "Text"), "select state", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CmpModels.StateId)
+
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CmpModels.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                        <div class="col-md-2">
+                                            @Html.DropDownListFor(model => model.CmpModels.CountryId, new SelectList(Model.CmpModels.Country, "Value", "Text"), "select country", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.CmpModels.CountryId)
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+</td>
+                    </tr>
+
+                    <br><br />
+                    <h4>Contact Details</h4>
+                    <hr />
+
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpModels.MobileNo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.CmpModels.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CmpModels.MobileNo, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CmpModels.Landlline, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.CmpModels.Landlline, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CmpModels.Landlline, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    <br><br />
+                    <br><br />
+                    <tr>
+                        <td>
+                           
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CmpModels.EmailID, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.CmpModels.EmailID, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CmpModels.EmailID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            
+                        </td>
+                       
+                    </tr>
+
+                    <br><br />
+
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpModels.Website, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.CmpModels.Website, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CmpModels.Website, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <br><br />
+
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpModels.Fax, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-2">
+                                    @Html.EditorFor(model => model.CmpModels.Fax, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CmpModels.Fax, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <br><br />
+
+
+
+
+                    <script>
+                        $(document).ready(function () {
+                            $(document).on('change', '.btn-file :file', function () {
+                                var input = $(this),
+                                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                                input.trigger('fileselect', [label]);
+                            });
+
+                            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                                var input = $(this).parents('.input-group').find(':text'),
+                                    log = label;
+
+                                if (input.length) {
+                                    input.val(log);
+                                } else {
+                                    if (log) alert(log);
+                                }
+
+                            });
+                            function readURL(input) {
+                                if (input.files && input.files[0]) {
+                                    var reader = new FileReader();
+
+                                    reader.onload = function (e) {
+                                        $('#img-upload').attr('src', e.target.result);
+                                    }
+
+                                    reader.readAsDataURL(input.files[0]);
+                                }
+                            }
+
+                            $("#imgInp").change(function () {
+                                readURL(this);
+                            });
+                        });
+                    </script>
+
+                    <tr>
+                        <td>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpModels.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-2">
+
+                                    <input class="img-responsive" type="file" name="file" id="imgInp" />
+                                    @Html.ValidationMessageFor(model => model.CmpModels.Logo, "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <img id='img-upload' height="40" width="200" />
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <br><br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create"  name="CompanyCreate" class="btn btn-default" />
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                @********************************@
+                <div class="tab-pane " id="2b">
+                    <h3 style="text-align:center;text-decoration:underline">COMPANY DOCUMENTS</h3>
+                    <br><br />
+
+                    <tr>
+                        <td>
+
+                            @*<div class="form-group">
+    @Html.LabelFor(model => model.CmpCftModels.Company, htmlAttributes: new { @class = "control-label col-md-2" })
+
+    <div class="col-md-2">
+        @Html.DropDownListFor(model => model.CmpCftModels.CftCompanyId, new SelectList(Model.CmpCftModels.Company, "Value", "Text"), "select Company", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CmpCftModels.CftCompanyId)
+
+    </div>
+    </div>*@
+                        </td>
+                    </tr>
+                    <br ><br />
+                    <tr>
+                        <td>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpCftModels.CIN, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <input class="col-md-2 btn-primary  btn-sm " type="file" name="file" id="file" />
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CmpCftModels.PAN, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" style="border:medium" />
+
+
+
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CmpCftModels.STRC, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                        <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <br><br />
+                    <br><br />
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpCftModels.EPF, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CmpCftModels.AOA, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CmpCftModels.TAN, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                        <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <br><br />
+                    <br><br />
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpCftModels.PT, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CmpCftModels.KYC, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CmpCftModels.MOA, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                        <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <br><br />
+                    <br><br />
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CmpCftModels.TIN, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CmpCftModels.ESI, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CmpCftModels.IEC, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                        <input class="col-md-2  btn-primary  btn-sm " type="file" name="file" id="file" />
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <br><br />
+                    <br><br />
+                    <tr>
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CmpCftModels.UAD, htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                                    <input class="col-md-2  btn-primary  btn-sm  " type="file" name="file" id="file" class="col-md-2" />
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <br><br />
+                    <br><br />
+                    <tr>
+                        <td>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Create" name="CftCreate" class="btn btn-default" />
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+
+
+                </div>
+
+
+                @******************************@
+                <div class="tab-pane " id="3b">
+                    <h3 style="text-align:center;text-decoration:underline">COMPANY BANKDETAILS</h3>
+                    <br><br />
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BnkDtls.Company, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.BnkDtls.BnkCompanyId, new SelectList(Model.BnkDtls.Company, "Value", "Text"), "select Company", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.BnkDtls.BnkCompanyId)
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BnkDtls.AcHoldername, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.BnkDtls.AcHoldername, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.BnkDtls.AcHoldername, "", new { @class = "text-danger" })
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BnkDtls.Acnumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(model => model.BnkDtls.Acnumber, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.BnkDtls.Acnumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <br><br />
+                   
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BnkDtls.BankName, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.BnkDtls.BnkNMId, new SelectList(Model.BnkDtls.BankName, "Value", "Text"), "select country", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.BnkDtls.BnkNMId)
+
+                                </div>
+
+                            
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BnkDtls.IFSC, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    <div class="col-md-2">
+                                        @Html.DropDownListFor(model => model.BnkDtls.BnkCmpIFSCId, new SelectList(Model.BnkDtls.IFSC, "Value", "Text"), "select country", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.BnkDtls.BnkCmpIFSCId)
+
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <br><br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" name="BankCreate" class="btn btn-default" />
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+       </div>
+
+    }
+

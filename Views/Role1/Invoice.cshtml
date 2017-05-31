@@ -1,0 +1,719 @@
+﻿@model SaazApplication.Models.Invoice
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+@if (ViewBag.Error != null)
+{
+    <script>
+        $(document).ready(function () {
+            alert('@ViewBag.Error');
+        });
+    </script>
+}
+
+@using (Html.BeginForm("Invoice", "Role1", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h3 style="text-align:center;text-decoration:underline">INVOICE  DETAILS</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.From_Company, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.From_Company,
+                       new SelectList(ViewBag.CompanyName, "Company"), "select Company", new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please select Company')",
+                           @oninput = "setCustomValidity('')"
+                       })
+                @Html.ValidationMessageFor(m => m.From_Company)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Date, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       required = "",
+                       @oninvalid = "this.setCustomValidity('Please select Date')",
+                       @oninput = "setCustomValidity('')"
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.M_O_P, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.M_O_P, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please enter Mode Of Payment')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.M_O_P, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Exp_Ref_No, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Exp_Ref_No, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   required = "",
+                   @oninvalid = "this.setCustomValidity('Please enter Exporters Ref No')",
+                   @oninput = "setCustomValidity('')"
+               }
+           })
+                @Html.ValidationMessageFor(model => model.Exp_Ref_No, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PONo, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.PONo, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       required = "",
+                       @oninvalid = "this.setCustomValidity('Please enter PO Number')",
+                       @oninput = "setCustomValidity('')"
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.PONo, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PO_Date, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.PO_Date, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please select PO Date')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.PO_Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Disp_Through, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Disp_Through, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   required = "",
+                   @oninvalid = "this.setCustomValidity('This field is required')",
+                   @oninput = "setCustomValidity('')"
+               }
+           })
+                @Html.ValidationMessageFor(model => model.Disp_Through, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Destination, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Destination, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       required = "",
+                       @oninvalid = "this.setCustomValidity('Please enter Destination')",
+                       @oninput = "setCustomValidity('')"
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.Destination, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TermsOfDelivery, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.TermsOfDelivery, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please select Terms Of Delivery')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.TermsOfDelivery, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShippingTerms, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.ShippingTerms, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   required = "",
+                   @oninvalid = "this.setCustomValidity('This field is required')",
+                   @oninput = "setCustomValidity('')"
+               }
+           })
+                @Html.ValidationMessageFor(model => model.ShippingTerms, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ServiceTaxNumber, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.ServiceTaxNumber, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       required = "",
+                       @oninvalid = "this.setCustomValidity('Please enter ServiceTaxNumber')",
+                       @oninput = "setCustomValidity('')"
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.ServiceTaxNumber, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ToAddress, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ToAddress, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please enter ToAddress')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.ToAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Currency, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Currency, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       required = "",
+                       @oninvalid = "this.setCustomValidity('Please enter Currency')",
+                       @oninput = "setCustomValidity('')"
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BankName, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.BankName, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please enter Bank Name')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Branch, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Branch, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               required = "",
+                               @oninvalid = "this.setCustomValidity('Please enter Branch Name')",
+                               @oninput = "setCustomValidity('')"
+                           }
+                       })
+                            @Html.ValidationMessageFor(model => model.Branch, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SWIFT_code, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.SWIFT_code, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       required = "",
+                       @oninvalid = "this.setCustomValidity('Please enter SWIFT code')",
+                       @oninput = "setCustomValidity('')"
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.SWIFT_code, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AccountNumber, htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.AccountNumber, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control",
+                           required = "",
+                           @oninvalid = "this.setCustomValidity('Please enter Account Number')",
+                           @oninput = "setCustomValidity('')"
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.AccountNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <table style="border: 1px solid Gray;width:80%">
+                            <tr style="border: 1px solid Gray;text-align:center">
+                                <th style="border: 1px solid Gray;width:10%;text-align:center">
+                                    <strong>S.No</strong>
+                                </th>
+                                <th style="border: 1px solid Gray;width:20%;text-align:center">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { style = "align: center", @class = "control-label col-md-1" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%">
+                                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-1" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%">
+                                    @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%;text-align:center">
+                                    <strong>S.No</strong>
+                                </th>
+                                <th style="border: 1px solid Gray;width:20%;text-align:center">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { style = "align: center", @class = "control-label col-md-1" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%">
+                                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-1" })
+                                </th>
+                                <th style="border: 1px solid Gray;width:10%">
+                                    @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </th>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>1.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description1, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 550px;height: 60px",
+                                       @class = "form-control",
+                                       required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Description')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity1, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Quantity')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate1, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>2.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description2, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity2, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate2, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>3.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description3, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity3, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate3, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>4.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description4, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity4, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate4, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>5.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description5, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity5, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate5, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>6.</strong></td>
+                                <td style="border: 1px solid Gray;">
+
+                                    @Html.EditorFor(model => model.Description6, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity6, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate6, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>7.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description7, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity7, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate7, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>8.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description8, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity8, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate8, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>9.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description9, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 550px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Description')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity9, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Quantity')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate9, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>10.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description10, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity10, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate10, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>11.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description11, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity11, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate11, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>12.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description12, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity12, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate12, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>13.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description13, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity13, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate13, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>14.</strong></td>
+                                <td style="border: 1px solid Gray;">
+
+                                    @Html.EditorFor(model => model.Description14, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity14, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate14, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid Gray;">
+                                <td style="border: 1px solid Gray;text-align:center"><strong>15.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description15, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity15, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate15, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                                <td style="border: 1px solid Gray;text-align:center"><strong>16.</strong></td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Description16, new { htmlAttributes = new { style = "width: 550px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Quantity16, new { htmlAttributes = new { style = "width: 100px;height: 60px", @class = "form-control" } })
+                                </td>
+                                <td style="border: 1px solid Gray;">
+                                    @Html.EditorFor(model => model.Rate16, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       style = "width: 100px;height: 60px",
+                                       @class = "form-control",
+                                       //required = "",
+                                       @oninvalid = "this.setCustomValidity('Please enter Rate')",
+                                       @oninput = "setCustomValidity('')"
+                                   }
+                               })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Generate Invoice" class="btn btn-default" />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <br />
+            <br />
+            <p>@ViewBag.Error<p />
+        </div>
+    </div>
+}

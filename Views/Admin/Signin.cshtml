@@ -1,0 +1,62 @@
+﻿@model SaazApplication.Models.AdminModel
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<style type="text/css">
+    div.form-group {
+        position: relative;
+        z-index: 1;
+        background: #FFFFFF;
+        max-width: 360px;
+        max-height: 360px;
+        margin: 0 auto 100px;
+        padding: 45px;
+        text-align: center;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+</style>
+
+@if (ViewBag.Error != null)
+{
+    <script>
+        $(document).ready(function () {
+            alert('@ViewBag.Error');
+        });
+    </script>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <tr>
+    <td>
+    <h3 style = "text-align:center" ><u>Login</u></h3>
+    <br/>
+
+        <div class="form-group">
+    @*<span class="input-group-addon">
+            <span class="glyphicon glyphicon-user"></span>
+        </span>*@
+    @Html.EditorFor(model => model.Loginid, new { htmlAttributes = new { @class = "form-control", @placeholder = "UserId",
+                                                                        required = "", @oninvalid = "this.setCustomValidity('Username is required')",
+                                                                        @oninput = "setCustomValidity('')"} })
+    <br />
+    @*<span class="input-group-addon">
+            <span class="glyphicon glyphicon-lock" ></span>
+        </span>*@
+    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password",
+                                                   required = "", @oninvalid = "this.setCustomValidity('Password is required')",
+                                                   @oninput = "setCustomValidity('')" } })
+    <br />
+
+    @Html.CheckBoxFor(model => model.Rememberme)<text>Remember me? </text>
+    <br />
+    <input type="submit" value="Login" class="btn btn-default" />
+    <br />
+            @Html.ActionLink("Forgot password","SendEmailView","Admin")
+    </div>
+    </td>
+    </tr>
+}
+
+@*onclick=@{ MiddleTyre.SendEmailView(Model);}*@ 

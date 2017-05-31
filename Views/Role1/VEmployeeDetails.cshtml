@@ -1,0 +1,789 @@
+﻿@model IEnumerable<SaazApplication.Models.EmpCombine>
+@using System.Web.Helpers;
+
+<link href="@Url.Content(" ~/Content/WebgridStyle.css")" rel="stylesheet" type="text/css" />
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/printPreview.js"></script>
+<script>
+    $(function () {
+        //for bootstrap 3 use 'shown.bs.tab' instead of 'shown' in the next line
+        $('a[data-toggle="tab"]').on('click', function (e) {
+            //save the latest tab; use cookies if you like 'em better:
+            localStorage.setItem('lastTab', $(e.target).attr('href'));
+        });
+
+        //go to the latest tab, if it exists:
+        var lastTab = localStorage.getItem('lastTab');
+
+        if (lastTab) {
+            $('a[href="' + lastTab + '"]').click();
+        }
+
+        $("#btnPrint").printPreview({
+            obj2print: '#masterContent',
+            width: '810'
+        });
+    });
+</script>
+
+<div id="exTab3" class="container">
+    <ul class="nav nav-pills">
+        <li class="active">
+            <a href="#1b" data-toggle="tab">Employee</a>
+        </li>
+        <li>
+            <a href="#2b" data-toggle="tab">  Employee Basic Details</a>
+        </li>
+        <li>
+            <a href="#3b" data-toggle="tab"> Emergency Contact Details</a>
+        </li>
+        <li>
+            <a href="#4b" data-toggle="tab">  Insurance Details</a>
+        </li>
+        <li>
+            <a href="#5b" data-toggle="tab">  Bank Details</a>
+        </li>
+        <li>
+            <a href="#6b" data-toggle="tab">  Education Details</a>
+        </li>
+        <li>
+            <a href="#7b" data-toggle="tab"> Work Details</a>
+        </li>
+        @*
+           
+            <li>
+                <a href="#8b" data-toggle="tab">  Education Documents</a>
+            </li>
+            <li>
+                <a href="#9b" data-toggle="tab">  Experience Documents</a>
+            </li>*@
+    </ul>
+    <div class="tab-content clearfix">
+        @*******@
+        <div class="tab-pane  active" id="1b">
+            <h3 style="text-align:center;text-decoration:underline"> EMPLOYEE</h3>
+            <br><br />
+            <style>
+                .Name {
+                    width: 150px;
+                }
+
+                .EmpId {
+                    width: 50px;
+                }
+            </style>
+            <div id="grid">
+                <table style="width:80%" align="center">
+                    <tr>
+                        <td>
+                            @if (ViewBag.RegisterItems != null)
+            {
+                var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+                                @grid.GetHtml(
+                    tableStyle: "table",
+                    headerStyle: "webgrid-header",
+                    footerStyle: "webgrid-footer",
+                    rowStyle: "webgrid-row-style",
+
+                    alternatingRowStyle: "webgrid-alternating-row",
+                    selectedRowStyle: "webgrid-selected-row",
+                    mode: WebGridPagerModes.All,
+
+                    fillEmptyRows: false,
+                    columns: grid.Columns(
+                    grid.Column("EmployeeBasicDetails.Id", "ID", canSort: true, style: "EmpId"),
+                    grid.Column(columnName: "EmployeeBasicDetails.UniqueId", header: "Emp_ID", style: "EmpId", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Name", "Name ", canSort: false, style: "Name"),
+                    //grid.Column("EmployeeBasicDetails.MiddleName", "Middle Name ", canSort: false),
+                    //grid.Column("EmployeeBasicDetails.LastName", "Last Name ", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Gender", "Gender ", canSort: false),
+                    grid.Column("EmployeeBasicDetails.MailId", "Email ID ", canSort: false, style: "Name"),
+                    grid.Column("EmployeeBasicDetails.Company", "Company ", canSort: false, style: "Name"),
+                    grid.Column("EmployeeBasicDetails.Designation", "Designation", canSort: false, style: "Name")
+                    //grid.Column("", header: "Action", canSort: false,
+                    /*format: item => new HtmlString(""))*/
+                    //format: item => new HtmlString(Html.ActionLink("Edit", "EditCmpDetails", new { Id = item.Id }, null).ToString() + '|' +
+                    //                                                          Html.ActionLink("Delete", "DeleteCmp", new { id = item.Id }, null).ToString()))
+                    ))
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    <br />
+                                    <br />
+                                    <p>Employee data is empty<p />
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>@* tab div*@
+        @********************************@
+        <div class="tab-pane  " id="2b">
+            <h3 style="text-align:center;text-decoration:underline">Employee Basic Details</h3>
+            <br><br />
+            <style>
+                .Name {
+                    width: 450px;
+                }
+
+                .EmpId {
+                    width: 50px;
+                }
+            </style>
+
+            <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+            <script type="text/javascript">
+                $(function () {
+        $('.edit-mode3').hide();
+        $('.edit-user3, .cancel-user3').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode3, .display-mode3').toggle();
+        });
+
+        $('.save-user3').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var Name                    = tr.find("#Name").val();
+            var Date_of_birth           = tr.find("#Date_of_birth").val();
+            var Date_of_join             = tr.find("#Date_of_join").val();
+            var BirthPlace           = tr.find("#BirthPlace").val();
+            var PAN                     = tr.find("#PAN").val();
+            var Passport            = tr.find("#Passport").val();
+            var Nationality          = tr.find("#Nationality").html();
+            var Driver_License          = tr.find("#Driver_License").val();
+            var Unique_ID           = tr.find("#Unique_ID").val();
+
+            /**/var Employee_profile = tr.find("#Employee_profile").val();
+
+            var Gender               = tr.find("#Gender").html();
+            var MaritalStatus        = tr.find("#MaritalStatus").html();
+            var Department              = tr.find("#Department").html();
+            var BloodType                   = tr.find("#BloodType").html();
+            var Designation              = tr.find("#Designation").html();
+            var Employment_Type             = tr.find("#Employment_Type").html();
+            var EmployeeRole            = tr.find("#EmployeeRole").html();
+            var AddressType           = tr.find("#AddressType").html();
+            var plot                     = tr.find("#plot").val();
+            var Street                = tr.find("#Street").html();
+            var City                  = tr.find("#City").val();
+            var State                 = tr.find("#State").html();
+            var PinCode               = tr.find("#PinCode").val();
+            var Country             = tr.find("#Country").html();
+            var CNumber             = tr.find("#CNumber").val();
+            var Company                      = tr.find("#Company").val();
+            var PersonalmailId              = tr.find("#PersonalmailId").val();
+            var MailId              = tr.find("#MailId").val();
+
+
+                                                                       
+            var UniqueId = tr.find("#UniqueId").html();                
+            var ID = tr.find("#Id").html();
+
+            tr.find("#lblnm").text(Name);                           
+            tr.find("#lbldob").text(Date_of_birth);                    
+            tr.find("#lbldoj").text(Date_of_join);                     
+            tr.find("#lblbp").text(BirthPlace);                        
+            tr.find("#lblpan").text(PAN);                              
+            tr.find("#lblpp").text(Passport);                               
+            tr.find("#lblnat").text(Nationality);                           
+            tr.find("#lbldl").text(Driver_License);                        -
+            tr.find("#lbladhar").text(Unique_ID);
+            /**/tr.find("#lblpic").text(Employee_profile);
+            tr.find("#lblgender").text(Gender);                         
+            tr.find("#lblms").text(MaritalStatus);                      
+            tr.find("#lbldep").text(Department);                        
+            tr.find("#lblbt").text(BloodType);                          
+            tr.find("#lbldes").text(Designation);                       
+            tr.find("#lblemptp").text(Employment_Type);                 
+            tr.find("#lblemprole").text(EmployeeRole);                  
+            tr.find("#lbladty").text(AddressType);                      
+            tr.find("#lblpt").text(plot);                               
+            tr.find("#lblst").text(Street);                               
+            tr.find("#lblct").text(City);                                 
+            tr.find("#lblsta").text(State);                               
+            tr.find("#lblpinc").text(PinCode)                             
+            tr.find("#lblcount").text(Country);                           
+            tr.find("#lblcnumb").text(CNumber);                           
+            tr.find("#lblcmp").text(Company);                             
+            tr.find("#lblpmail").text(PersonalmailId);                    
+            tr.find("#lblmail").text(MailId);                             
+
+            tr.find('.edit-mode3, .display-mode3').toggle();
+            var EmpCombine =
+            {
+                "EmployeeBasicDetails.Name "  :        Name  ,         
+            "EmployeeBasicDetails.Date_of_birth "   :  Date_of_birth , 
+            "EmployeeBasicDetails.Date_of_join  "   :  Date_of_join ,  
+            "EmployeeBasicDetails.BirthPlace    "   :  BirthPlace ,    
+            "EmployeeBasicDetails.PAN           "   :  PAN       ,     
+            "EmployeeBasicDetails.Passport      "   :  Passport  ,     
+            "EmployeeBasicDetails.Nationality   "   :  Nationality ,   
+            "EmployeeBasicDetails.Driver_License"   :  Driver_License ,
+            "EmployeeBasicDetails.Unique_ID     "   :  Unique_ID   ,   
+                /**/ "EmployeeBasicDetails.Employee_profile":Employee_profile,
+            "EmployeeBasicDetails. Gender       "   :  Gender ,         
+            "EmployeeBasicDetails. MaritalStatus"   :  MaritalStatus  , 
+            "EmployeeBasicDetails. Department   "   :  Department  ,    
+            "EmployeeBasicDetails. BloodType    "   :  BloodType  ,     
+            "EmployeeBasicDetails. Designation  "   :  Designation  ,   
+            "EmployeeBasicDetails. Employment_Type" :  Employment_Type, 
+            "EmployeeBasicDetails. EmployeeRole   " :  EmployeeRole,    
+            "EmployeeBasicDetails. AddressType    " :  AddressType ,    
+            "EmployeeBasicDetails. plot           " :  plot     ,       
+            "EmployeeBasicDetails. Street         " :  Street  ,        
+            "EmployeeBasicDetails. City           " :  City   ,         
+            "EmployeeBasicDetails. State          " :  State  ,         
+            "EmployeeBasicDetails. PinCode        " :  PinCode,         
+            "EmployeeBasicDetails. Country        " :  Country ,        
+            "EmployeeBasicDetails. CNumber        " :  CNumber ,        
+            "EmployeeBasicDetails. Company        " :  Company ,        
+            "EmployeeBasicDetails. PersonalmailId " :  PersonalmailId  ,
+            "EmployeeBasicDetails. MailId         " :  MailId,          
+            };
+            $.ajax({
+                url: '/Role1/UpdateEmployeeDetails/',
+                data: JSON.stringify(EmpCombine),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert(data);
+                }
+            });
+
+        });
+    })
+            </script>
+            <div id="grid">
+                @if (ViewBag.RegisterItems != null)
+                {
+                    var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+                    @grid.GetHtml(
+                    tableStyle: "table",
+                    headerStyle: "webgrid-header",
+                    footerStyle: "webgrid-footer",
+                    rowStyle: "webgrid-row-style",
+
+                    alternatingRowStyle: "webgrid-alternating-row",
+                    selectedRowStyle: "webgrid-selected-row",
+                    mode: WebGridPagerModes.All,
+
+                    fillEmptyRows: false,
+                    columns: grid.Columns(
+                    grid.Column("EmployeeBasicDetails.Id", "ID", format: @<text>  <span class="display-mode2">@item.EmployeeBasicDetails.Id </span> <label id="Id" class="edit-mode2">@item.EmployeeBasicDetails.Id</label> </text>, style: "col1Width", canSort: true),
+                    grid.Column(columnName: "EmployeeBasicDetails.UniqueId", header: "Emp_ID", format: @<text>  <span class="display-mode2">@item.EmployeeBasicDetails.UniqueId </span> <label id="UniqueId" class="edit-mode2">@item.EmployeeBasicDetails.UniqueId</label> </text>, style: "col1Width", canSort: true),
+                    grid.Column("EmployeeBasicDetails.Name", "Name ", format: @<text>  <span class="display-mode3"> <label id="lblnm">@item.EmployeeBasicDetails.Name</label> </span> <input type="text" id="Name" value="@item.EmployeeBasicDetails.Name" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    //grid.Column("EmployeeBasicDetails.FirstName", "First Name", canSort: false),
+                    //grid.Column("EmployeeBasicDetails.MiddleName", "Middle Name", canSort: false),
+                    //grid.Column("EmployeeBasicDetails.LastName", "Last Name ", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Date_of_birth", " DOB", format: @<text>  <span class="display-mode3"> <label id="lbldob">@item.EmployeeBasicDetails.Date_of_birth</label> </span> <input type="text" id="Date_of_birth" value="@item.EmployeeBasicDetails.Date_of_birth" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Date_of_join", "DOJ ", format: @<text>  <span class="display-mode3"> <label id="lbldoj">@item.EmployeeBasicDetails.Date_of_join</label> </span> <input type="text" id="Date_of_join" value="@item.EmployeeBasicDetails.Date_of_join" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.BirthPlace", "Place Of Birth ", format: @<text>  <span class="display-mode3"> <label id="lblbp">@item.EmployeeBasicDetails.BirthPlace</label> </span> <input type="text" id="BirthPlace" value="@item.EmployeeBasicDetails.BirthPlace" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.PAN", "PAN Number ", format: @<text>  <span class="display-mode3"> <label id="lblpan">@item.EmployeeBasicDetails.PAN</label> </span> <input type="text" id="PAN" value="@item.EmployeeBasicDetails.PAN" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Passport", "Passport ", format: @<text>  <span class="display-mode3"> <label id="lblpp">@item.EmployeeBasicDetails.Passport</label> </span> <input type="text" id="Passport" value="@item.EmployeeBasicDetails.Passport" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Nationality", "Nationality ", format: @<text>  <span class="display-mode3"> <label id="lblnat">@item.EmployeeBasicDetails.Nationality</label> </span> <input type="text" id="Nationality" value="@item.EmployeeBasicDetails.Nationality" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Driver_License", "Driving License", format: @<text>  <span class="display-mode3"> <label id="lbldl">@item.EmployeeBasicDetails.Driver_License</label> </span> <input type="text" id="Driver_License" value="@item.EmployeeBasicDetails.Driver_License" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Unique_ID", " Aadhar Number", format: @<text>  <span class="display-mode3"> <label id="lbladhar">@item.EmployeeBasicDetails.Unique_ID</label> </span> <input type="text" id="Unique_ID" value="@item.EmployeeBasicDetails.Unique_ID" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                     grid.Column(header: "Pic", format:
+                    @<text><span class="display-mode3"> <label id="lblpic"><img href="@String.Format("data:image/gif;base64,{0}",item.EmployeeBasicDetails.Employee_profile)"   width="70"
+                             height="70">open documents</label> </span> <input type="file" id="Employee_profile" value="@item.EmployeeBasicDetails.Employee_profile" class="edit-mode3" />
+                    </text>, style: "Imagepix", canSort: false),
+                    
+                        @*grid.Column(header: "Pic", format:
+                    @<text>
+                        <img id="imgInp"
+                             src="@String.Format(" data:image/gif;base64,{0}",item.EmployeeBasicDetails.Employee_profile)"
+                             width="70"
+                             height="70"
+                             @*alt="@item.Logo" />
+                    </text>, style: "Imagepix"),*@
+                    grid.Column("EmployeeBasicDetails.Gender", "Gender ", format: @<text>  <span class="display-mode3"> <label id="lblgender">@item.EmployeeBasicDetails.Gender</label> </span> <input type="text" id="Gender" value="@item.EmployeeBasicDetails.Gender" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.MaritalStatus", "Marital Status ", format: @<text>  <span class="display-mode3"> <label id="lblms">@item.EmployeeBasicDetails.MaritalStatus</label> </span> <input type="text" id="MaritalStatus" value="@item.EmployeeBasicDetails.MaritalStatus" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Department", "Department ", format: @<text>  <span class="display-mode3"> <label id="lbldep">@item.EmployeeBasicDetails.Department</label> </span> <input type="text" id="Department" value="@item.EmployeeBasicDetails.Department" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.BloodType", "Blood Group ", format: @<text>  <span class="display-mode3"> <label id="lblbt">@item.EmployeeBasicDetails.BloodType</label> </span> <input type="text" id="BloodType" value="@item.EmployeeBasicDetails.BloodType" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Designation", "Designation ", format: @<text>  <span class="display-mode3"> <label id="lbldes">@item.EmployeeBasicDetails.Designation</label> </span> <input type="text" id="Designation" value="@item.EmployeeBasicDetails.Designation" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Employment_Type", "Employment Type  ", format: @<text>  <span class="display-mode3"> <label id="lblemptp">@item.EmployeeBasicDetails.Employment_Type</label> </span> <input type="text" id="Employment_Type" value="@item.EmployeeBasicDetails.Employment_Type" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.EmployeeRole", "Employee Role  ", format: @<text>  <span class="display-mode3"> <label id="lblemprole">@item.EmployeeBasicDetails.EmployeeRole</label> </span> <input type="text" id="EmployeeRole" value="@item.EmployeeBasicDetails.EmployeeRole" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.AddressType", " Type of Address", format: @<text>  <span class="display-mode3"> <label id="lbladty">@item.EmployeeBasicDetails.AddressType</label> </span> <input type="text" id="AddressType" value="@item.EmployeeBasicDetails.AddressType" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.plot", "Plot ", format: @<text>  <span class="display-mode3"> <label id="lblpt">@item.EmployeeBasicDetails.plot</label> </span> <input type="text" id="plot" value="@item.EmployeeBasicDetails.plot" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Street", " Street", format: @<text>  <span class="display-mode3"> <label id="lblst">@item.EmployeeBasicDetails.Street</label> </span> <input type="text" id="Street" value="@item.EmployeeBasicDetails.Street" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.City", " City", format: @<text>  <span class="display-mode3"> <label id="lblct">@item.EmployeeBasicDetails.City</label> </span> <input type="text" id="City" value="@item.EmployeeBasicDetails.City" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.State", "State ", format: @<text>  <span class="display-mode3"> <label id="lblsta">@item.EmployeeBasicDetails.State</label> </span> <input type="text" id="State" value="@item.EmployeeBasicDetails.State" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.PinCode", " PinCode", format: @<text>  <span class="display-mode3"> <label id="lblpinc">@item.EmployeeBasicDetails.PinCode</label> </span> <input type="text" id="PinCode" value="@item.EmployeeBasicDetails.PinCode" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Country", " Country", format: @<text>  <span class="display-mode3"> <label id="lblcount">@item.EmployeeBasicDetails.Country</label> </span> <input type="text" id="Country" value="@item.EmployeeBasicDetails.Country" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.CNumber", "Contact_Number ", format: @<text>  <span class="display-mode3"> <label id="lblcnumb">@item.EmployeeBasicDetails.CNumber</label> </span> <input type="text" id="CNumber" value="@item.EmployeeBasicDetails.CNumber" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.Company", " Company", format: @<text>  <span class="display-mode3"> <label id="lblcmp">@item.EmployeeBasicDetails.Company</label> </span> <input type="text" id="Company" value="@item.EmployeeBasicDetails.Company" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.PersonalmailId", " Personal Email ID", format: @<text>  <span class="display-mode3"> <label id="lblpmail">@item.EmployeeBasicDetails.PersonalmailId</label> </span> <input type="text" id="PersonalmailId" value="@item.EmployeeBasicDetails.PersonalmailId" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBasicDetails.MailId", " Work Email ID", format: @<text>  <span class="display-mode3"> <label id="lblmail">@item.EmployeeBasicDetails.MailId</label> </span> <input type="text" id="MailId" value="@item.EmployeeBasicDetails.MailId" class="edit-mode3" /></text>, style: "col2Width", canSort: false),
+
+                   grid.Column("Action", format: @<text>
+                        <button class="edit-user3 display-mode3">Edit</button>
+                        <button class="save-user3 edit-mode3" id="id3">Save</button>
+                        <button class="cancel-user3 edit-mode3">Cancel</button>
+                </text>, style: "col3Width", canSort: false)
+                    ))
+}
+else
+{
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <p>Employee data is empty<p />
+                    </div>
+                }
+            </div>
+
+        </div>@*tab div*@
+        @***************************@
+        <div class="tab-pane  " id="3b">
+            <h3 style="text-align:center;text-decoration:underline">Emergency Contact Details</h3>
+            <br><br />
+            <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+            <script type="text/javascript">
+                $(function () {
+        $('.edit-mode1').hide();
+        $('.edit-user1, .cancel-user1').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode1, .display-mode1').toggle();
+        });
+
+        $('.save-user1').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var Contactname = tr.find("#Contactname").val();
+            var Relation = tr.find("#Relation").val();
+            var Plot = tr.find("#Plot").val();
+            var City = tr.find("#City").val();
+            var Street = tr.find("#Street").val();
+            var State = tr.find("#State").html();
+            var PinCode = tr.find("#PinCode").val();
+            var Country = tr.find("#Country").html();
+            var CNumber = tr.find("#CNumber").val();
+            var Email = tr.find("#Email").val();
+            var UniqueId = tr.find("#UniqueId").html();
+            var ID = tr.find("#Id").html();
+            tr.find("#lblcon").text(Contactname);
+            tr.find("#lblrel").text(Relation);
+            tr.find("#lblplot").text(Plot);
+            tr.find("#lblcity").text(City);
+            tr.find("#lblstreet").text(Street);
+            tr.find("#lblstate").text(State);
+            tr.find("#lblpin").text(PinCode);
+            tr.find("#lblcnty").text(Country);
+            tr.find("#lblcnum").text(CNumber);
+            tr.find("#lblemail").text(Email);
+            tr.find('.edit-mode1, .display-mode1').toggle();
+            var EmpCombine =
+            {
+                "EmployeeEmergencyDetails.Employee_EmgUniqueId": UniqueId,
+                "EmployeeEmergencyDetails.Contactname":Contactname,
+            "EmployeeEmergencyDetails.Relation":    Relation ,
+            "EmployeeEmergencyDetails.Plot"    :    Plot,
+            "EmployeeEmergencyDetails.City":        City,
+            "EmployeeEmergencyDetails.Street":      Street,
+            "EmployeeEmergencyDetails.State":       State ,
+            "EmployeeEmergencyDetails.PinCode":     PinCode,
+            "EmployeeEmergencyDetails.Country":     Country,
+            "EmployeeEmergencyDetails.CNumber":     CNumber ,
+            "EmployeeEmergencyDetails.Email":       Email,
+            };
+            $.ajax({
+                url: '/Role1/UpdateEmergencyContactDetails/',
+                data: JSON.stringify(EmpCombine),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert(data);
+                }
+            });
+
+        });
+    })
+            </script>
+
+            <div id="grid">
+                @if (ViewBag.RegisterItems != null)
+                {
+
+                    var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+                    @grid.GetHtml(
+                    tableStyle: "table",
+                    headerStyle: "webgrid-header",
+                    footerStyle: "webgrid-footer",
+                    rowStyle: "webgrid-row-style",
+                    alternatingRowStyle: "webgrid-alternating-row",
+                    selectedRowStyle: "webgrid-selected-row",
+                    mode: WebGridPagerModes.All,
+                    fillEmptyRows: false,
+                    columns: grid.Columns(
+                 /**/   grid.Column("EmployeeBasicDetails.Id", "ID", format: @<text>  <span class="display-mode1">@item.EmployeeBasicDetails.Id </span> <label id="Id" class="edit-mode">@item.EmployeeBasicDetails.Id</label> </text>, style: "col1Width", canSort: true),
+                    grid.Column(columnName: "EmployeeBasicDetails.UniqueId", header: "Emp_ID", format: @<text>  <span class="display-mode1">@item.EmployeeBasicDetails.UniqueId </span> <label id="UniqueId" class="edit-mode1">@item.EmployeeBasicDetails.UniqueId</label> </text>, style: "col1Width", canSort: false),
+                    grid.Column("EmployeeEmergencyDetails.Contactname", "Contact Name", format: @<text>  <span class="display-mode1"> <label id="lblcon">@item.EmployeeEmergencyDetails.Contactname</label> </span> <input type="text" id="Contactname" value="@item.EmployeeEmergencyDetails.Contactname" class="edit-mode1" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeEmergencyDetails.Relation", "Relation", format: @<text>  <span class="display-mode1"> <label id="lblrel">@item.EmployeeEmergencyDetails.Relation</label> </span> <input type="text" id="Relation" value="@item.EmployeeEmergencyDetails.Relation" class="edit-mode1" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeEmergencyDetails.Plot", "Plot", format: @<text>  <span class="display-mode1"> <label id="lblplot">@item.EmployeeEmergencyDetails.Plot</label> </span> <input type="text" id="Plot" value="@item.EmployeeEmergencyDetails.Plot" class="edit-mode1" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeEmergencyDetails.City", "City", format: @<text>  <span class="display-mode1"> <label id="lblcity">@item.EmployeeEmergencyDetails.City</label> </span> <input type="text" id="City" value="@item.EmployeeEmergencyDetails.City" class="edit-mode1" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeEmergencyDetails.Street", "Street", format: @<text>  <span class="display-mode1"> <label id="lblstreet">@item.EmployeeEmergencyDetails.Street</label> </span> <input type="text" id="Street" value="@item.EmployeeEmergencyDetails.Street" class="edit-mode1" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeEmergencyDetails.PinCode", "PinCode", format: @<text>  <span class="display-mode1"> <label id="lblpin">@item.EmployeeEmergencyDetails.PinCode</label> </span> <input type="text" id="PinCode" value="@item.EmployeeEmergencyDetails.PinCode" class="edit-mode1" /></text>, style: "col2Width", canSort: false),
+                     // grid.Column("EmployeeEmergencyDetails.Country", "Country", format: @<text>  <span class="display-mode1"> <label id="lblcnty">@item.EmployeeEmergencyDetails.Country</label> </span><select id="Country" value="@item.EmployeeEmergencyDetails.Country, ViewData[" Countries"] as SelectList,"Select Country",new {@class="form-control" }class="edit-mode1" /></text>
+                     // @*<input type="text" id="Country" value="@item.EmployeeEmergencyDetails.Country" class="edit-mode" /></text>*@, style: "col2Width", canSort: false),
+                    // grid.Column("EmployeeEmergencyDetails.State", "State", format: @<text>  <span class="display-mode1"> <label id="lblstate">@item.EmployeeEmergencyDetails.State</label> </span> <input type="text" id="State" value="@item.EmployeeEmergencyDetails.State" class="edit-mode1" /></text>, style: "col2Width", canSort: false),
+                     grid.Column(columnName: "EmployeeEmergencyDetails.State", header: "State", format: @<text>  <span class="display-mode1">@item.EmployeeEmergencyDetails.State </span> <label id="State" class="edit-mode1">@item.EmployeeEmergencyDetails.State</label> </text>, style: "col1Width", canSort: false),
+                     grid.Column(columnName: "EmployeeEmergencyDetails.Country", header: "Country", format: @<text>  <span class="display-mode1">@item.EmployeeEmergencyDetails.Country </span> <label id="Country" class="edit-mode1">@item.EmployeeEmergencyDetails.Country</label> </text>, style: "col1Width", canSort: false),
+                    grid.Column("EmployeeEmergencyDetails.CNumber", "Contact Number", format: @<text>  <span class="display-mode1"> <label id="lblcnum">@item.EmployeeEmergencyDetails.CNumber</label> </span> <input type="text" id="CNumber" value="@item.EmployeeEmergencyDetails.CNumber" class="edit-mode1" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeEmergencyDetails.Email", "Email ID", format: @<text>  <span class="display-mode1"> <label id="lblemail">@item.EmployeeEmergencyDetails.Email</label> </span> <input type="text" id="Email" value="@item.EmployeeEmergencyDetails.Email" class="edit-mode1" /></text>, style: "col2Width", canSort: false),
+  grid.Column("Action", format: @<text>
+                            <button class="edit-user1 display-mode1">Edit</button>
+                            <button class="save-user1 edit-mode1" id="id">Save</button>
+                            <button class="cancel-user1 edit-mode1">Cancel</button>
+    </text>, style: "col3Width", canSort: false)
+
+                    ))
+                }
+                else
+                {
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <p>Employee data is empty<p />
+                    </div>
+                }
+            </div>
+
+        </div>
+
+        
+    @*tab div*@
+        @*********************************@
+        <div class="tab-pane  " id="4b">
+            <h3 style="text-align:center;text-decoration:underline">Insurance Details</h3>
+            <br><br />
+            <style>
+                .PolicyNo {
+                    width: 150px;
+                }
+
+                .Company {
+                    width: 150px;
+                }
+
+                .EmpId {
+                    width: 50px;
+                }
+            </style>
+            <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+            <script type="text/javascript">
+
+                $(function () {
+        $('.edit-mode').hide();
+        $('.edit-user, .cancel-user').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+
+        $('.save-user').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var Insurance_company = tr.find("#Insurance").val();
+            var PolicyNumber = tr.find("#PolicyNumber").val();
+            var Policy_Name = tr.find("#PolicyName").val();
+            var UniqueId = tr.find("#UniqueId").html();
+            var ID = tr.find("#Id").html();
+            tr.find("#lblins").text(Insurance_company);
+            tr.find("#lblnum").text(PolicyNumber);
+            tr.find("#lblname").text(Policy_Name);
+            tr.find('.edit-mode, .display-mode').toggle();
+            var EmpCombine =
+            {
+                "EmployeeBasicDetails.Id":ID,
+                "EmployeeInsuranceDetails.Employee_InsUniqueId": UniqueId,
+                "EmployeeInsuranceDetails.Insurance_company": Insurance_company,
+                "EmployeeInsuranceDetails.PolicyNumber"  : PolicyNumber,
+               "EmployeeInsuranceDetails.Policy_Name"     :      Policy_Name,
+            };
+            $.ajax({
+                url: '/Role1/UpdateInsuranceDetails/',
+                data: JSON.stringify(EmpCombine),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert(data);
+                }
+            });
+
+        });
+    })
+            </script>
+            <div id="grid">
+                <table style="width: 50%;" align="center">
+                    <tr>
+                        <td>
+                            @if (ViewBag.RegisterItems != null)
+                            {
+
+                                var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+                                @grid.GetHtml(
+                                tableStyle: "table",
+                                headerStyle: "webgrid-header",
+                                footerStyle: "webgrid-footer",
+                                rowStyle: "webgrid-row-style",
+                                alternatingRowStyle: "webgrid-alternating-row",
+                                selectedRowStyle: "webgrid-selected-row",
+                                mode: WebGridPagerModes.All,
+                                fillEmptyRows: false,
+
+
+                                columns: grid.Columns(
+                                    grid.Column("EmployeeBasicDetails.Id", "ID", format: @<text>  <span class="display-mode">@item.EmployeeBasicDetails.Id </span> <label id="Id" class="edit-mode">@item.EmployeeBasicDetails.Id</label> </text>, style: "col1Width"),
+                                grid.Column(columnName: "EmployeeBasicDetails.UniqueId", header: "Emp_ID", format: @<text>  <span class="display-mode">@item.EmployeeBasicDetails.UniqueId </span> <label id="UniqueId" class="edit-mode">@item.EmployeeBasicDetails.UniqueId</label> </text>, style: "col1Width"),
+                                grid.Column("EmployeeInsuranceDetails.Insurance_company", "company Name", format: @<text>  <span class="display-mode"> <label id="lblins">@item.EmployeeInsuranceDetails.Insurance_company</label> </span> <input type="text" id="Insurance" value="@item.EmployeeInsuranceDetails.Insurance_company" class="edit-mode" /></text>, style: "col2Width"),
+                                grid.Column("EmployeeInsuranceDetails.PolicyNumber", "Policy Number", format: @<text>  <span class="display-mode"> <label id="lblnum">@item.EmployeeInsuranceDetails.PolicyNumber</label> </span> <input type="text" id="PolicyNumber" value="@item.EmployeeInsuranceDetails.PolicyNumber" class="edit-mode" /></text>, style: "col2Width"),
+                                grid.Column("EmployeeInsuranceDetails.Policy_Name", "Policy Name", format: @<text>  <span class="display-mode"> <label id="lblname">@item.EmployeeInsuranceDetails.Policy_Name</label> </span> <input type="text" id="PolicyName" value="@item.EmployeeInsuranceDetails.Policy_Name" class="edit-mode" /></text>, style: "col2Width"),
+                                     grid.Column("Action", format: @<text>
+                                        <button class="edit-user display-mode">Edit</button>
+                                        <button class="save-user edit-mode">Save</button>
+                                        <button class="cancel-user edit-mode">Cancel</button>
+                                    </text>, style: "col3Width", canSort: false)
+                                ))
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    <br />
+                                    <br />
+                                    <p>Employee data is empty<p />
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        @**************************@
+        <div class="tab-pane  " id="5b">
+            <h3 style="text-align:center;text-decoration:underline">Bank Details</h3>
+            <br><br />
+            <style>
+                .BankName {
+                    width: 150px;
+                }
+
+                .EmpId {
+                    width: 50px;
+                }
+            </style>
+
+            <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>           
+            <script type="text/javascript">                                                     
+                $(function () {                                                                 
+                    $('.edit-mode2').hide();                                                    
+                    $('.edit-user2, .cancel-user2').on('click', function () {                   
+                        var tr = $(this).parents('tr:first');                                   
+                        tr.find('.edit-mode2, .display-mode2').toggle();                        
+                    });                                                                         
+                                                                                                                          00
+        $('.save-user2').on('click', function () {
+            var tr = $(this).parents('tr:first');                               
+            var AccountHoldername = tr.find("#AccountHoldername").val();        
+            var AccountNumber = tr.find("#AccountNumber").val();
+            var BankName = tr.find("#BankName").val();                          
+            var IFSCCode = tr.find("#IFSCCode").val();
+            var MICR_Code=tr.find("#MICR_Code").html();
+            var Branch=tr.find("#Branch").html();
+            var City=tr.find("#City").html();
+            var State=tr.find("#State").html();
+            var Country=tr.find("#Country").html();
+
+            var UniqueId = tr.find("#UniqueId").html();                         
+            var ID = tr.find("#Id").html();                                     
+            tr.find("#lblacntnam").text(AccountHoldername);
+            tr.find("#lblacntnum").text(AccountNumber);
+            tr.find("#lblacbnk").text(BankName);
+            tr.find("#lblacifsc").text(IFSCCode);
+            tr.find("#lblacmicr").text(MICR_Code);
+            tr.find("#lblacbrch").text(Branch);
+            tr.find("#lblaccity").text(City);
+            tr.find("#lblacstate").text(State);
+            tr.find("#lblaccnty").text(Country);
+         
+
+            tr.find('.edit-mode2, .display-mode2').toggle();
+            var EmpCombine =
+            {
+                "EmployeeBankDetails.Employee_UniqueId": UniqueId,
+                "EmployeeBankDetails.AccountHoldername": AccountHoldername,
+                "EmployeeBankDetails.AccountNumber": AccountNumber,
+                "EmployeeBankDetails.BankName": BankName,
+                "EmployeeBankDetails.IFSCCode": IFSCCode,
+            }
+            $.ajax({
+                url: '/Role1/UpdateBankDetails/',
+                data: JSON.stringify(EmpCombine),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert(data);
+                }
+            });
+
+        });
+    })
+            </script>
+            <div id="grid">
+                @if (ViewBag.RegisterItems != null)
+            {
+
+                var grid = new System.Web.Helpers.WebGrid(ViewBag.RegisterItems, rowsPerPage: 5);
+                    @grid.GetHtml(
+                    tableStyle: "table",
+                    headerStyle: "webgrid-header",
+                    footerStyle: "webgrid-footer",
+                    rowStyle: "webgrid-row-style",
+
+                    alternatingRowStyle: "webgrid-alternating-row",
+                    selectedRowStyle: "webgrid-selected-row",
+                    mode: WebGridPagerModes.All,
+
+                    fillEmptyRows: false,
+                    columns: grid.Columns(grid.Column("EmployeeBasicDetails.Id", "ID", format: @<text>  <span class="display-mode2">@item.EmployeeBasicDetails.Id </span> <label id="Id" class="edit-mode2">@item.EmployeeBasicDetails.Id</label> </text>, style: "col1Width", canSort: true),
+                    grid.Column(columnName: "EmployeeBasicDetails.UniqueId", header: "Emp_ID", format: @<text>  <span class="display-mode2">@item.EmployeeBasicDetails.UniqueId </span> <label id="UniqueId" class="edit-mode2">@item.EmployeeBasicDetails.UniqueId</label> </text>, style: "col1Width"),
+                    grid.Column("EmployeeBankDetails.AccountHoldername", "Acc Name", format: @<text>  <span class="display-mode2"> <label id="lblacntnam">@item.EmployeeBankDetails.AccountHoldername</label> </span> <input type="text" id="AccountHoldername" value="@item.EmployeeBankDetails.AccountHoldername" class="edit-mode2" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBankDetails.AccountNumber", "Acc Number", format: @<text>  <span class="display-mode2"> <label id="lblacntnum">@item.EmployeeBankDetails.AccountNumber</label> </span> <input type="text" id="AccountNumber" value="@item.EmployeeBankDetails.AccountNumber" class="edit-mode2" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBankDetails.BankName", "Bank", format: @<text>  <span class="display-mode2"> <label id="lblacbnk">@item.EmployeeBankDetails.BankName</label> </span> <input type="text" id="BankName" value="@item.EmployeeBankDetails.BankName" class="edit-mode2" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBankDetails.IFSCCode", "IFSC_Code", format: @<text>  <span class="display-mode2"> <label id="lblacifsc">@item.EmployeeBankDetails.IFSCCode</label> </span> <input type="text" id="IFSCCode" value="@item.EmployeeBankDetails.IFSCCode" class="edit-mode2" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBankDetails.MICR_Code", "MICR_Code", format: @<text>  <span class="display-mode2"> <label id="lblacmicr">@item.EmployeeBankDetails.MICR_Code</label> </span> <input type="text" id="MICR_Code" value="@item.EmployeeBankDetails.MICR_Code" class="edit-mode2" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBankDetails.Branch", "Branch", format: @<text>  <span class="display-mode2"> <label id="lblacbrch">@item.EmployeeBankDetails.Branch</label> </span> <input type="text" id="Branch" value="@item.EmployeeBankDetails.Branch" class="edit-mode2" /></text>, style: "col2Width", canSort: false),
+                    // //grid.Column("EmployeeBankDetails.Address", "Address", canSort: false),
+                    grid.Column("EmployeeBankDetails.City", "City", format: @<text>  <span class="display-mode2"> <label id="lblaccity">@item.EmployeeBankDetails.City</label> </span> <input type="text" id="City" value="@item.EmployeeBankDetails.City" class="edit-mode2" /></text>, style: "col2Width", canSort: false),
+                    //  //grid.Column("EmployeeBankDetails.District", "District", canSort: false),
+                    grid.Column("EmployeeBankDetails.State", "State", format: @<text>  <span class="display-mode2"> <label id="lblacstate">@item.EmployeeBankDetails.State</label> </span> <input type="text" id="State" value="@item.EmployeeBankDetails.State" class="edit-mode2" /></text>, style: "col2Width", canSort: false),
+                    grid.Column("EmployeeBankDetails.Country", "Country", format: @<text>  <span class="display-mode2"> <label id="lblaccnty">@item.EmployeeBankDetails.Country</label> </span> <input type="text" id="Country" value="@item.EmployeeBankDetails.Country" class="edit-mode2" /></text>, style: "col2Width", canSort: false),
+                 grid.Column("Action", format: @<text>
+                        <button class="edit-user2 display-mode2">Edit</button>
+                        <button class="save-user2 edit-mode2" id="id2">Save</button>
+                        <button class="cancel-user2 edit-mode2">Cancel</button>
+                </text>, style: "col3Width", canSort: false)
+
+                    ))
+}
+else
+{
+                    <div class="form-group">
+                        <br />
+                        <br />
+                        <p>Employee data is empty<p />
+                    </div>
+                }
+            </div>
+
+        </div>
+        @**************************@
+        <div class="tab-pane  " id="6b">
+            <h3 style="text-align:center;text-decoration:underline">Education Details</h3>
+            <br><br />
+            <div>
+                <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+                <script type="text/javascript" language="javascript">
+                $(document).ready(function () {
+                    $("#EducationDetails").change(function () {
+                        var name = $("#EducationDetails").val();
+                        $.ajax({
+                            type: "post",
+                            url: "/Role1/DynamicallyRender",
+                            dataType: "html",
+                            data: "name=" + name,
+                            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                            //  async: true,
+                            success: function (result) { validate(result); },
+                            error: function (e) { display(e); }
+                        });
+                    });
+                });
+                function validate(result) {
+                    $("#EduDtls").html("");
+                    $("#EduDtls").html(result);
+                }
+                function display(e) { }
+                </script>
+                <div>
+
+                    <div class="form-group">
+                        @Html.Label("EmployeeId:", htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.DropDownList("name", new SelectList(ViewBag.EmployeeID, "Employee"), "select Employee", new
+                       {
+                           @class = "form-control",
+                           @id = "EducationDetails",
+                           //required = "",
+                           @oninvalid = "this.setCustomValidity('Please Select Employee Id')",
+                           @oninput = "setCustomValidity('')"
+                       })
+                        </div>
+                        <br />
+                        <br />
+                        <div id="EduDtls">
+                            @{
+                                Html.RenderPartial("_EmployeeEducationDetails");
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @****************************@
+        <div class="tab-pane" id="7b">
+            <h3 style="text-align:center;text-decoration:underline">Work Details</h3>
+            <br><br />
+            <div>
+                <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+                <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $("#ExperienceDetails").change(function () {
+                var name = $("#ExperienceDetails").val();
+                $.ajax({
+                    type: "post",
+                    url: "/Role1/DynamicallyRender1",
+                    dataType: "html",
+                    data: "name=" + name,
+                    contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                    //  async: true,
+                    success: function (result) { validate2(result); },
+                    error: function (e) { display(e); }
+                });
+            });
+        });
+        function validate2(result) {
+            $("#ExpDtls").html("");
+            $("#ExpDtls").html(result);
+        }
+        function display(e) { }
+                </script>
+                <div>
+
+                    <div class="form-group">
+                        @Html.Label("EmployeeId:", htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-2">
+                            @Html.DropDownList("name1", new SelectList(ViewBag.EmployeeID, "Employee"), "select Employee", new
+               {
+                   @class = "form-control",
+                   @Id = "ExperienceDetails",
+                   //required = "",
+                   @oninvalid = "this.setCustomValidity('Please Select Employee Id')",
+                   @oninput = "setCustomValidity('')"
+               })
+                        </div>
+                        <br />
+                        <br />
+                        <div id="ExpDtls">
+                            @{
+                                Html.RenderPartial("_EmployeeExperienceDetails");
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
