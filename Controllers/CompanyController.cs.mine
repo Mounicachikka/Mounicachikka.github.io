@@ -1,0 +1,270 @@
+﻿using SaazApplication.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace SaazApplication.Controllers
+{
+    public class CompanyController : Controller
+    {
+        MiddleTyre Mid = new MiddleTyre();
+        // GET: Company list in  gridview
+        public ActionResult GetCompanyDetails()
+        {
+            try
+            {
+                if (Login.HasLogin == false)
+                {
+                    return RedirectToAction("Signin", "Admin");
+                }
+                else
+                {
+                    ModelState.Clear();
+                    //CmpCombine cmb = new CmpCombine();
+                    return View(Mid.GetCompany());
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        //Company details
+        static DataTable dt = new DataTable();
+        CmpCombine cmb = new CmpCombine();
+
+        [HttpGet]
+        public ActionResult AddCompany()
+        {
+            if (Login.HasLogin == false)
+            {
+                return RedirectToAction("Signin", "Admin");
+            }
+            else
+            {
+                UpdateViewCompany();
+                return View(cmb);
+            }
+        }
+
+        private void UpdateViewCompany()
+        {
+            cmb.CmpModels = new CmpModel();
+            cmb.BnkDtls = new BnkDtl();
+            cmb.CmpCftModels = new CmpCftModel();
+            dt = new DataTable();
+            dt = MiddleTyre.GetCountry();
+            List<string> s = dt.AsEnumerable().Select(x => x[0].ToString()).ToList();
+            SelectList Countries = new SelectList(s);
+            ViewData["Countries"] = Countries;
+            //cmb.CmpCftModels.Company = MiddleTyre.PopulateCompany();
+            dt = new DataTable();
+            dt = MiddleTyre.GetCompanyNames();
+            List<string> s2 = dt.AsEnumerable().Select(x => x[0].ToString()).ToList();
+            SelectList CompanyNames = new SelectList(s2);
+            ViewBag.CompanyName = CompanyNames;
+            dt = new DataTable();
+            dt = MiddleTyre.GetBankNames();
+            List<string> s3 = dt.AsEnumerable().Select(x => x[0].ToString()).ToList();
+            SelectList BankNames = new SelectList(s3);
+            ViewData["BankNames"] = BankNames;
+            //cmb.BnkDtls.BankName = MiddleTyre.PopulateBnkName();
+            //cmb.BnkDtls.IFSC = MiddleTyre.PopulateBankIFSC();
+        }
+
+        public JsonResult States(string Country)
+        {
+            List<string> StatesList = new List<string>();
+            dt = MiddleTyre.GetState(Country);
+            List<string> s = dt.AsEnumerable().Select(x => x[0].ToString()).ToList();
+            return Json(s);
+        }
+
+        public JsonResult IFSCCode(string BankName)
+        {
+            List<string> StatesList = new List<string>();
+            dt = MiddleTyre.GetIFSCCode(BankName);
+            List<string> s = dt.AsEnumerable().Select(x => x[0].ToString()).ToList();
+            return Json(s);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCompany(CmpCombine cmb, HttpPostedFileBase file)// controller to insert data to database
+        {
+
+            try
+            {
+                if (Request.Form["CompanyCreate"] != null)
+                {
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase myfile = files[i];
+                        if (myfile.ContentLength > 0)
+                        {
+                            if (myfile.FileName != null)
+                            {
+                                var binaryReader = new BinaryReader(myfile.InputStream);
+                                byte[] array = binaryReader.ReadBytes(myfile.ContentLength);
+                                string base64ImageRepresentation = Convert.ToBase64String(array);
+                                cmb.CmpModels.Logo = base64ImageRepresentation;
+                            }
+                        }
+                    }
+                    if (Mid.AddCompany(cmb, file))
+                    {
+                        ViewBag.message = "";
+                    }
+                }
+                else if (Request.Form["CftCreate"] != null)
+                {
+                    //cmb.CmpCftModels.Company = MiddleTyre.PopulateCompany();
+                    if (Mid.Addbank(cmb, file))
+                    {
+                        ViewBag.message = "";
+                    }
+                }
+                else if (Request.Form["BankCreate"] != null)
+                {
+                    //cmb.BnkDtls.Company = MiddleTyre.PopulateCompany();
+                    //cmb.BnkDtls.IFSC = MiddleTyre.PopulateBankIFSC();
+                    //cmb.BnkDtls.BankName = MiddleTyre.PopulateBnkName();
+                    if (Mid.Addbank(cmb, file))
+                    {
+                        ViewBag.message = "";
+                    }
+                }
+                UpdateViewCompany();
+                return View(cmb);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        //             if (Mid.AddCompany(cmb, file))
+        //             {
+        //                 string[] columns = new string[]
+        //{
+        //         "Clm_CFT_CIN",
+        //         "Clm_CFT_AOA",
+        //         "Clm_CFT_MOA",
+        //         "Clm_CFT_PAN",
+        //         "Clm_CFT_TAN",
+        //         "Clm_CFT_TIN",
+        //         "Clm_CFT_STRC",
+        //         "Clm_CFT_PT",
+        //         "Clm_CFT_ESI",
+        //         "Clm_CFT_EPF",
+        //         "Clm_CFT_KYC",
+        //         "Clm_CFT_IEC",
+        //         "Clm_CFT_UAD"
+        //};
+
+        //                 if (file != null)
+        //                 {
+        //                     HttpFileCollectionBase files = Request.Files;
+        //                     bool first = false;
+        //                     for (int i = 0; i < files.Count; i++)
+        //                     {
+
+        //                         HttpPostedFileBase myfile = files[i];
+        //                         if (file.ContentLength > 0)
+        //                         {
+
+
+        //                             var binaryReader = new BinaryReader(myfile.InputStream);
+        //                             byte[] array = binaryReader.ReadBytes(myfile.ContentLength);
+
+        //                             string base64ImageRepresentation = Convert.ToBase64String(array);
+        //                           string  constr = ConfigurationManager.ConnectionStrings["myConnectionString"].ToString();
+        //                             SqlConnection con = new SqlConnection(constr);
+        //                             con.Open();
+        //                             SqlCommand com;
+        //                             if (first == false)
+        //                             {
+        //                                 com = new SqlCommand("insert into Tbl_Co_Cft_Dtls(" + columns[i] + ")values(@1) where Clm_Co_Id=@2", con);
+        //                                 com.Parameters.AddWithValue("@1", base64ImageRepresentation);
+        //                                 com.Parameters.AddWithValue("@2", cmb.CmpCftModels.Company);
+        //                                 com.ExecuteNonQuery();
+        //                                 first = true;
+
+        //                             }
+        //                             else
+        //                             {
+        //                                 com = new SqlCommand("update Tbl_Co_Cft_Dtls set " + columns[i] + "=@1 where clm_cft_id=(select max(clm_cft_id) from TBL_Cft)", con);
+        //                                 com.Parameters.AddWithValue("@1", base64ImageRepresentation);
+
+        //                                 com.ExecuteNonQuery();
+
+
+        //                             }
+        //                         }
+        //                     }
+        //                 }
+
+        public ActionResult EditCmpDetails(int id)
+        {
+            if (Login.HasLogin == false)
+            {
+                return RedirectToAction("Signin", "Admin");
+            }
+            else
+            {
+                return View(Mid.GetCompany().Find(Cmp => Cmp.CmpModels.ID == id));
+            }
+        }
+        [HttpPost]
+        public ActionResult EditCmpDetails(int id, CmpModel obj, HttpPostedFileBase file)
+        {
+            try
+            {
+
+                Mid.UpdateCompany(obj, file);
+                return RedirectToAction("GetCompanyDetails");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public ActionResult DeleteCmp(int id)
+        {
+            if (Login.HasLogin == false)
+            {
+                return RedirectToAction("Signin", "Admin");
+            }
+            else
+            {
+                try
+                {
+
+                    if (Mid.DeleteCompany(id))
+                    {
+                        ViewBag.AlertMsg = "Company details deleted successfully";
+
+                    }
+                    return RedirectToAction("GetCompanyDetails");
+
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+        }
+    }
+}
+
+
+
